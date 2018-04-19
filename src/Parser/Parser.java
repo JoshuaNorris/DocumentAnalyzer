@@ -20,4 +20,15 @@ public class Parser {
 		}
 		return allDocuments;
 	}
+	
+	public ArrayList<DocumentContainer> getAllDocuments() {return allDocuments;};
+	
+	public ArrayList<ArrayList<String>> getAllSentenceandWordsCombined() {
+		ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
+		
+		for (int x = 0; x < allDocuments.size(); x++) {
+			result.addAll(allDocuments.get(x).getSentencesWithWords());
+		}
+		return result;
+	}
 }
