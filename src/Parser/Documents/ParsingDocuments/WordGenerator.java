@@ -12,12 +12,21 @@ public class WordGenerator {
 
 	public ArrayList<String> run() {
 		removePunctuation();
+		doc = removeSpaces(doc);
 		doc = doc.toLowerCase();
-		
 		String[] wordsArray = doc.split(" ");
 		
 		ArrayList<String> words = removeStopWords(wordsArray);
 		return words;
+	}
+
+	private String removeSpaces(String doc) {
+		if (doc.charAt(0) == ' ') {
+			return removeSpaces(doc.substring(1));
+		} else {
+			return doc;
+		}
+		
 	}
 
 	private ArrayList<String> removeStopWords(String[] words) {
