@@ -11,12 +11,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-//import edu.stanford.nlp.simple.Document;
-//import edu.stanford.nlp.simple.Sentence;
-//import edu.stanford.nlp.simple.Token;
+import edu.stanford.nlp.simple.Document;
+import edu.stanford.nlp.simple.Sentence;
+import edu.stanford.nlp.simple.Token;
 
 public class ScoreSummarizer {
-<<<<<<< HEAD
 
 	private ArrayList<Sentence> allSentences = new ArrayList<Sentence>();
 	private ArrayList<Integer> scores = new ArrayList<Integer>();
@@ -25,12 +24,6 @@ public class ScoreSummarizer {
 
 	public ScoreSummarizer() {
 	}
-=======
-/**
-	private LinkedHashMap<Sentence, Double> pileOfSentences = new LinkedHashMap<Sentence, Double>();
-	private ArrayList<String> ignoreWords;
-	private ArrayList<Sentence> finalSentences;
->>>>>>> b29ebcdcc742386abf26f00c4a4c666635aa3f54
 
 	public void stopMaker() throws IOException {
 		File file = new File("C:\\Users\\colby\\Documents\\CSCI 270 Computational Humanities\\stop-words-list.txt");
@@ -68,12 +61,8 @@ public class ScoreSummarizer {
 		System.out.println(scores);
 		System.out.println(bestScoring);
 
-<<<<<<< HEAD
 
 
 	}
-=======
-	//} */
->>>>>>> b29ebcdcc742386abf26f00c4a4c666635aa3f54
 
 }

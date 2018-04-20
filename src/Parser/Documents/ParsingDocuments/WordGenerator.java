@@ -114,10 +114,10 @@ public class WordGenerator {
 			return true;
 		} else if (ch == '?') {
 			return true;
-		/*} else if (ch == '§') {
+		} else if (ch == '§') {
 			return true;
 		} else if (ch == '±') {
-			return true;*/
+			return true;
 		}
 		return false;
 	}
