@@ -70,11 +70,9 @@ public class NetSearcher {
 	}
 
 	private double getTheSentenceScore(ArrayList<ArrayList<String>> sentences, int x, String query) {
-		ArrayList<String> sentence = sentences.get(x);
-		System.out.println("HELLO4 : " + sentences);
-		NetSearcherNode searchNode = new NetSearcherNode(sentence, query);
-		searchNode = setSearchNodeEnviroment(sentences, x, query, searchNode);
-		System.out.println("HELLO1 : " + sentences);
+		ArrayList<ArrayList<String>> tempSentences = sentences;
+		NetSearcherNode searchNode = new NetSearcherNode(tempSentences.get(x), query);
+		searchNode = setSearchNodeEnviroment(tempSentences, x, query, searchNode);
 		return searchNode.getMatchValue();
 	}
 

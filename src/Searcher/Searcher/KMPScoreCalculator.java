@@ -15,17 +15,15 @@ public class KMPScoreCalculator {
 	public double run() {
 
 		ArrayList<String> tempSentence = sentence;
-		return run(0.0, tempSentence);
+		double x = run(0.0, tempSentence);
+		return x;
 	}
 
 	private double run(double num, ArrayList<String> sentence) {
-		if (sentence.isEmpty()) {
-			return num;
-		} else {
-			double wordScore = getWordScore(sentence.get(0));
-			sentence.remove(0);
-			return run((num + wordScore), sentence);
+		for (int x = 0; x < sentence.size(); x++) {
+			num += getWordScore(sentence.get(x));
 		}
+		return num;
 	}
 
 	private double getWordScore(String str) {

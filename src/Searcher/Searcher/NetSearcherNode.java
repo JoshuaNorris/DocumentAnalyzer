@@ -66,7 +66,8 @@ public class NetSearcherNode {
 
 	private double calculateScore() {
 		KMPScoreCalculator score = new KMPScoreCalculator(query, sentence);
-		return score.run();
+		double x = score.run();
+		return x;
 	}
 	
 }

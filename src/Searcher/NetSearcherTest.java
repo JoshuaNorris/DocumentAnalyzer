@@ -26,7 +26,7 @@ public class NetSearcherTest {
 		String query1 = "java";
 		
 		NetSearcher search1 = new NetSearcher(query1, document1);
-		search1.run();
+		System.out.println(search1.run());
 				
 	}
 
