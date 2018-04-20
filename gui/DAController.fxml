@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="469.0" prefWidth="789.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GUIController">
+<TabPane fx:id="tabHolder" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="469.0" prefWidth="789.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GUIController">
   <tabs>
     <Tab text="Search">
       <content>
@@ -30,8 +30,8 @@
                   </Label>
                   <Label fx:id="keywords" layoutX="17.0" layoutY="45.0" text="Keywords: " />
                   <TextArea fx:id="view" layoutX="17.0" layoutY="81.0" prefHeight="300.0" prefWidth="761.0" />
-                  <Button fx:id="viewSummary" layoutX="14.0" layoutY="381.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="382.0" text="View Summary" />
-                  <Button fx:id="viewFull" layoutX="396.0" layoutY="381.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="382.0" text="View Full Text" />
+                  <Button fx:id="viewSummary" layoutX="14.0" layoutY="381.0" mnemonicParsing="false" onAction="#pressSeeSummary" prefHeight="31.0" prefWidth="382.0" text="View Summary" />
+                  <Button fx:id="viewFull" layoutX="396.0" layoutY="381.0" mnemonicParsing="false" onAction="#setViewToFull" prefHeight="31.0" prefWidth="382.0" text="View Full Text" />
                </children></AnchorPane>
       </content>
     </Tab>

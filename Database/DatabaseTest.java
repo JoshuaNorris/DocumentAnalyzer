@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import gui.GUIController;
 
 public class DatabaseTest {
 	
