@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import Searcher.Searcher.NetSearcher;
+
 import Parser.Documents.DocumentContainer;
 
 public class NetSearcherTest {

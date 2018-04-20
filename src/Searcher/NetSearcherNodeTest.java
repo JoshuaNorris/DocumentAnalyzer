@@ -2,6 +2,8 @@ package Searcher;
 
 import static org.junit.Assert.*;
 
+import Searcher.Searcher.NetSearcherNode;
+
 import java.util.ArrayList;
 
 import org.junit.Test;
