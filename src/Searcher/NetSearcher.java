@@ -19,7 +19,7 @@ public class NetSearcher {
 		
 		for (int x = 0; x < documents.size(); x++) {
 			DocumentContainer document = documents.get(x);
-			NetSearcherNode sentence = new NetSearcherNode();
+			//NetSearcherNode sentence = new NetSearcherNode();
 		}
 		
 		

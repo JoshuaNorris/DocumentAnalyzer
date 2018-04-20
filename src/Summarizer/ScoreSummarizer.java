@@ -11,12 +11,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.stanford.nlp.simple.Document;
-import edu.stanford.nlp.simple.Sentence;
-import edu.stanford.nlp.simple.Token;
+//import edu.stanford.nlp.simple.Document;
+//import edu.stanford.nlp.simple.Sentence;
+//import edu.stanford.nlp.simple.Token;
 
 public class ScoreSummarizer {
-
+/**
 	private LinkedHashMap<Sentence, Double> pileOfSentences = new LinkedHashMap<Sentence, Double>();
 	private ArrayList<String> ignoreWords;
 	private ArrayList<Sentence> finalSentences;
@@ -48,6 +48,6 @@ public class ScoreSummarizer {
 
 	//public ArrayList topReturner() {
 
-	//}
+	//} */
 
 }

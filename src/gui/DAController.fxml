@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="469.0" prefWidth="789.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GUIController">
+  <tabs>
+    <Tab text="Search">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Button layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#pressLoadFileButton" text="Add File" />
+                  <Button fx:id="search" layoutX="664.0" layoutY="14.0" mnemonicParsing="false" text="Search" />
+                  <Button fx:id="back" layoutX="664.0" layoutY="385.0" mnemonicParsing="false" text="Back" />
+                  <ListView fx:id="articlesList" layoutX="90.0" layoutY="61.0" prefHeight="315.0" prefWidth="569.0" />
+                  <TextField fx:id="searchBar" layoutX="90.0" layoutY="14.0" prefHeight="31.0" prefWidth="568.0" promptText="Search: Title, keyword, phrase" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab fx:id="articlesTab" text="Article">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="title" layoutX="14.0" layoutY="14.0" text="Title">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="keywords" layoutX="17.0" layoutY="45.0" text="Keywords: " />
+                  <TextArea fx:id="view" layoutX="17.0" layoutY="81.0" prefHeight="300.0" prefWidth="761.0" />
+                  <Button fx:id="viewSummary" layoutX="14.0" layoutY="381.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="382.0" text="View Summary" />
+                  <Button fx:id="viewFull" layoutX="396.0" layoutY="381.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="382.0" text="View Full Text" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+  </tabs>
+</TabPane>
