@@ -16,6 +16,7 @@ public class NetSearcher {
 	}
 
 	public ArrayList<String> run() {
+<<<<<<< HEAD:src/Searcher/NetSearcher.java
 		ArrayList<Pair<Integer, Double>> scores = getScores(document, query);
 		return getArrayList(scores);
 	}
@@ -35,6 +36,12 @@ public class NetSearcher {
 		for (int x = 0; x < sentences.size(); x++) {
 			Pair<Integer, Double> sentenceWithScore = new Pair(x, getTheSentenceScore(sentences, x, query));
 			result.add(sentenceWithScore);
+=======
+		
+		for (int x = 0; x < documents.size(); x++) {
+			DocumentContainer document = documents.get(x);
+			//NetSearcherNode sentence = new NetSearcherNode();
+>>>>>>> 6d6f1bec8ca730687a4253c5fa46886e4eba2417:Searcher/NetSearcher.java
 		}
 		
 		ArrayList< Pair< Integer, Double>> orderedResult = new ArrayList< Pair< Integer, Double>>();
