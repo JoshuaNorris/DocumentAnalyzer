@@ -2,10 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-<<<<<<< HEAD
-	<classpathentry kind="lib" path="C:/Users/colby/Downloads/stanford-corenlp-full-2018-02-27/stanford-corenlp-3.9.1.jar"/>
-=======
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
->>>>>>> bc56cd6929003bc301fdb0b7df2f7325ec45d8c4
+	<classpathentry kind="lib" path="C:/Users/colby/Downloads/stanford-corenlp-full-2018-02-27/stanford-corenlp-full-2018-02-27/stanford-corenlp-3.9.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
