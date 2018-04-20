@@ -1,4 +1,4 @@
-package Searcher;
+package Searcher.Searcher;
 
 import java.util.ArrayList;
 
@@ -10,9 +10,9 @@ public class Searcher {
 	private String query;
 	private DocumentContainer documents;
 	
-	public Searcher(String query, DocumentContainer documents) {
+	public Searcher(String query, String document) {
 		this.query = query;
-		this.documents = documents;
+		this.documents = new DocumentContainer(document);
 	}
 	
 	public ArrayList<String> run() {
