@@ -1,4 +1,4 @@
-package Searcher;
+package Searcher.Searcher;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,8 @@ public class KMPScoreCalculator {
 
 	public double run() {
 
-		return run(0.0, sentence);
+		ArrayList<String> tempSentence = sentence;
+		return run(0.0, tempSentence);
 	}
 
 	private double run(double num, ArrayList<String> sentence) {

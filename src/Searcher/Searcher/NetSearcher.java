@@ -1,4 +1,4 @@
-package Searcher;
+package Searcher.Searcher;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,6 @@ public class NetSearcher {
 	private ArrayList<String> getArrayList(ArrayList<Pair<Integer, Double>> scores) {
 		ArrayList<String> result = new ArrayList<String>();
 		for (int x = 0; x < scores.size(); x++) {
-			System.out.println(scores.get(x));
 			result.add(document.getSentences().get(scores.get(x).getKey()));
 		}
 		return result;
@@ -33,10 +32,11 @@ public class NetSearcher {
 		ArrayList<ArrayList<String>> sentences = document.getSentencesWithWords();
 		ArrayList<Pair<Integer, Double>> result = new ArrayList<Pair<Integer, Double>>();
 		for (int x = 0; x < sentences.size(); x++) {
-			Pair<Integer, Double> sentenceWithScore = new Pair(x, getTheSentenceScore(sentences, x, query));
+			Pair<Integer, Double> sentenceWithScore = new Pair<Integer, Double>(x, getTheSentenceScore(sentences, x, query));
 			result.add(sentenceWithScore);
 
 		}
+		
 		ArrayList<Pair<Integer, Double>> orderedResult = new ArrayList<Pair<Integer, Double>>();
 		orderedResult = orderScores(result, orderedResult);
 
@@ -71,13 +71,16 @@ public class NetSearcher {
 
 	private double getTheSentenceScore(ArrayList<ArrayList<String>> sentences, int x, String query) {
 		ArrayList<String> sentence = sentences.get(x);
+		System.out.println("HELLO4 : " + sentences);
 		NetSearcherNode searchNode = new NetSearcherNode(sentence, query);
 		searchNode = setSearchNodeEnviroment(sentences, x, query, searchNode);
+		System.out.println("HELLO1 : " + sentences);
 		return searchNode.getMatchValue();
 	}
 
 	private NetSearcherNode setSearchNodeEnviroment(ArrayList<ArrayList<String>> sentences, int x, String query,
 			NetSearcherNode searchNode) {
+		
 		if (x == 0) {
 			if (x < sentences.size() - 2) {
 				searchNode.setNext1(new NetSearcherNode(sentences.get(x + 1), query));

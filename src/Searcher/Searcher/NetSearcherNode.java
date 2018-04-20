@@ -1,4 +1,4 @@
-package Searcher;
+package Searcher.Searcher;
 
 import java.util.ArrayList;
 
