@@ -131,12 +131,10 @@ public class KMPScoreCalculator {
 		nextChar = expectedChar;
 		skippedNum = 0;
 		if (isExpectedChar) {
-			System.out.println("I am not in next 2");
 			num++;
 			return calculateScoreHelper(str, query, expectedChar, nextChar, expectedCharIndex, nextCharIndex,
 					skippedNum, num);
 		} else {
-			System.out.println("I am in next 2");
 			num = num + .5;
 			return calculateScoreHelper(str, query, nextChar, expectedChar, nextCharIndex, expectedCharIndex,
 					skippedNum, num);

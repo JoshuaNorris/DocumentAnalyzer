@@ -10,30 +10,58 @@ public class NetSearcherNode {
 	private NetSearcherNode next1;
 	private NetSearcherNode next2;
 	private double thisScore;
-	private double matchValue;
+	private double avg;
 	private String query;
 	
-	
-	NetSearcherNode (NetSearcherNode prev2, NetSearcherNode prev1, ArrayList<String> sentence, NetSearcherNode next1, NetSearcherNode next2, String query) {
-		this.prev2 = prev2;
-		this.prev1 = prev1;
+	NetSearcherNode (ArrayList<String> sentence, String query) {
 		this.sentence = sentence;
-		this.next1 = next1;
-		this.next2 = next2;
-		this.thisScore = calculateScore();
-		this.matchValue = calculateMatchValue();
 		this.query = query;
-		
+		this.thisScore = calculateScore();
 	}
 	
-	public double getMatchValue() {return matchValue;};
+	public void setPrev2 (NetSearcherNode prev2) {this.prev2 = prev2;};
+	public void setPrev1 (NetSearcherNode prev1) {this.prev1 = prev1;};
+	public void setNext1 (NetSearcherNode next1) {this.next1 = next1;};
+	public void setNext2 (NetSearcherNode next2) {this.next2 = next2;};
+	
+	public void setAvg () {
+		ArrayList<Double> listOfScores = new ArrayList<Double>();
+		if (prev2 != null) {
+			listOfScores.add(prev2.getScore());
+		}
+		if (prev1 != null) {
+			listOfScores.add(prev2.getScore());
+		}
+		if (next1 != null) {
+			listOfScores.add(prev2.getScore());
+		}
+		if (next2 != null) {
+			listOfScores.add(prev2.getScore());
+		}
+		this.avg = getSum(listOfScores) / listOfScores.size();
+	}
+	
+	private double getSum(ArrayList<Double> listOfScores) {
+		int result = 0;
+		for (int x = 0; x < listOfScores.size(); x++) {
+			result += listOfScores.get(x);
+		}
+		return result;
+	}
+
+	public double getOtherScore (NetSearcherNode node) {
+		if (node == null) {
+			return this.avg;
+		} else {
+			return node.getScore();
+		}
+	}
+	
+	public double getMatchValue() {return calculateMatchValue();};
 	public double getScore() {return thisScore;};
 	
-	
-
 	private double calculateMatchValue() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (getOtherScore(prev2) * .25) + (getOtherScore(prev1) * .25) + (getOtherScore(next1) * .5) + (getOtherScore(next2) * .5) + this.getScore();
 	}
 
 	private double calculateScore() {
@@ -41,68 +69,4 @@ public class NetSearcherNode {
 		return score.run();
 	}
 	
-	public NetSearcherNode (NetSearcherNode prev1, ArrayList<String> sentence, NetSearcherNode next1, NetSearcherNode next2, String query) {
-		// Missing prev2
-		this(new NetSearcherNode((prev1.getScore() + next1.getScore() + next2.getScore()) / 3), 
-				prev1, sentence, next1, next2, query);
-	}
-	
-	public NetSearcherNode (ArrayList<String> sentence, NetSearcherNode next1, NetSearcherNode next2, String query) {
-		// Missing prev2, prev1
-		this(new NetSearcherNode((next1.getScore() + next2.getScore()) / 2),
-				new NetSearcherNode((next1.getScore() + next2.getScore()) / 2),
-				sentence, next1, next2, query);
-	}
-	
-	public NetSearcherNode (NetSearcherNode prev2, NetSearcherNode prev1, ArrayList<String> sentence, NetSearcherNode next1, String query) {
-		// Missing next2
-		this(prev2, prev1, sentence, next1,
-				new NetSearcherNode((prev2.getScore() + prev1.getScore() + next1.getScore()) / 3),
-				query);
-	}
-
-	public NetSearcherNode (NetSearcherNode prev2, NetSearcherNode prev1, ArrayList<String> sentence, String query) {
-		// Missing next1 next2
-		this(prev2, prev1, sentence,
-				new NetSearcherNode((prev2.getScore() + prev1.getScore()) / 2),
-				new NetSearcherNode((prev2.getScore() + prev1.getScore()) / 2),
-				query);
-	}
-	
-	public NetSearcherNode (NetSearcherNode prev1, ArrayList<String> sentence, NetSearcherNode next1, String query) {
-		// Missing prev2 next2
-		this(new NetSearcherNode((prev1.getScore() + next1.getScore()) / 2),
-				prev1, sentence, next1,
-				new NetSearcherNode((prev1.getScore() + next1.getScore()) / 2),
-				query);
-	}
-	
-	public NetSearcherNode (NetSearcherNode prev1, ArrayList<String> sentence, String query) {
-		// Missing prev2 next1 next2
-		this (new NetSearcherNode(prev1.getScore()),
-				prev1, sentence,
-				new NetSearcherNode(prev1.getScore()),
-				new NetSearcherNode(prev1.getScore()),
-				query);
-	}
-	
-	public NetSearcherNode (ArrayList<String> sentence, NetSearcherNode next1, String query) {
-		// Missing prev2 prev1 next2
-		this (new NetSearcherNode(next1.getScore()),
-				new NetSearcherNode(next1.getScore()),
-				sentence, next1,
-				new NetSearcherNode(next1.getScore()),
-				query);
-	}
-
-	public NetSearcherNode (double score) {
-		this.prev2 = null;
-		this.prev1 = null;
-		this.sentence = null;
-		this.next1 = null;
-		this.next2 = null;
-		this.thisScore = score;
-		this.matchValue = 0.0;
-		this.query = "";
-	}
 }
