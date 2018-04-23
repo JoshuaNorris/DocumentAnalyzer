@@ -63,7 +63,7 @@ public class NetSearcherNode {
 	public double getScore() {return thisScore;};
 	
 	private double calculateMatchValue() {
-		return (getOtherScore(prev2) * .25) + (getOtherScore(prev1) * .25) + (getOtherScore(next1) * .5) + (getOtherScore(next2) * .5) + this.getScore();
+		return (getOtherScore(prev2) * .125) + (getOtherScore(prev1) * .125) + (getOtherScore(next1) * .25) + (getOtherScore(next2) * .25) + this.getScore();
 	}
 
 	private double calculateScore() {

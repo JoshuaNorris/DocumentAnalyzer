@@ -48,6 +48,10 @@ public class NetSearcherTest {
 		assertTrue(search1.getSearchResults().get(0).equals(" Anyways java is a super cool language java."));
 		assertTrue(search1.getRelatedWords().get(0).equals("java"));
 		
+		String query2 = "called";
+		Searcher search2 = new Searcher(query2, doc1);
+		System.out.println(search2.getSearchResults());
+		
 	}
 
 }
