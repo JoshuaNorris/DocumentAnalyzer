@@ -1,9 +1,10 @@
-package Searcher;
+package Searcher.Tests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import Searcher.TitleSearcher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -27,7 +28,7 @@ public class TitleSearcherTest {
 		
 		String query1 = "blue";
 		TitleSearcher test1 = new TitleSearcher(query1, titles);
-		System.out.println(test1.getSearchResults());
+		assertTrue(test1.getSearchResults().get(0).equals("Blue Blue Blue"));
 	}
 
 }
