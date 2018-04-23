@@ -1,6 +1,8 @@
-package Searcher.Searcher;
+package Searcher.NetSearcher;
 
 import java.util.ArrayList;
+
+import Searcher.NetSearcher.KMPScore.KMPScoreCalculator;
 
 public class NetSearcherNode {
 
@@ -13,7 +15,7 @@ public class NetSearcherNode {
 	private double avg;
 	private String query;
 	
-	NetSearcherNode (ArrayList<String> sentence, String query) {
+	public NetSearcherNode (ArrayList<String> sentence, String query) {
 		this.sentence = sentence;
 		this.query = query;
 		this.thisScore = calculateScore();

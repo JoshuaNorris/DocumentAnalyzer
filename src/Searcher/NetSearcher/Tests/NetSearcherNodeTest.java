@@ -1,12 +1,12 @@
-package Searcher;
+package Searcher.NetSearcher.Tests;
 
 import static org.junit.Assert.*;
-
-import Searcher.Searcher.NetSearcherNode;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
+
+import Searcher.NetSearcher.NetSearcherNode;
 
 public class NetSearcherNodeTest {
 

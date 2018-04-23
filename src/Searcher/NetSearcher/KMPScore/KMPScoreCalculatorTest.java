@@ -1,4 +1,4 @@
-package Searcher;
+package Searcher.NetSearcher.KMPScore;
 
 import static org.junit.Assert.*;
 
