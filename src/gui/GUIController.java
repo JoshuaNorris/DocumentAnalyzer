@@ -43,7 +43,7 @@ public class GUIController {
 	@FXML
 	TabPane tabHolder;
 	
-	static Database db;
+	public static Database db;
 	static {
 		try {
 			db = new Database();
