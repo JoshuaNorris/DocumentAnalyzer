@@ -65,11 +65,8 @@ public class ScoreSummarizer {
 		System.out.println(scores);
 		System.out.println(bestScoring);
 
-<<<<<<< HEAD
-
 
 	}
-=======
 	//} 
 
 }*/
