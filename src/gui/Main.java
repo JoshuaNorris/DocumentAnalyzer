@@ -15,7 +15,7 @@ public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("DAController.fxml"));
-        primaryStage.setTitle("Document Consistency Checker");
+        primaryStage.setTitle("Document Analyzer");
         primaryStage.setScene(new Scene(root, 800, 575));
         primaryStage.show();
 	}

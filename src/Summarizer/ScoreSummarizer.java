@@ -1,4 +1,4 @@
-package src.Summarizer;
+package Summarizer;
 
 import java.io.BufferedReader;
 import java.io.File;
