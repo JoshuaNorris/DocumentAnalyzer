@@ -43,12 +43,14 @@ public class GUIController {
 	@FXML
 	TabPane tabHolder;
 	
+	static BadNews error;
+	
 	public static Database db;
 	static {
 		try {
 			db = new Database();
 		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
+			error = new BadNews("We could not load your database.");
 			e.printStackTrace();
 		}
 	}
@@ -100,7 +102,7 @@ public class GUIController {
 		try {
 			db.insertDocument(name, fullText);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			error = new BadNews("We could not put the file into your database.");
 			e.printStackTrace();
 		}
 	}
@@ -117,7 +119,7 @@ public class GUIController {
 		try {
 			articlesList.setItems(db.getAllArticles());
 		} catch (SQLException e) {
-			//TODO
+			error = new BadNews("We could not load your articles.");
 			e.printStackTrace();
 		}
 	}
@@ -135,6 +137,7 @@ public class GUIController {
 		setViewToSummary(title);
 	}
 	
+	//TODO ask if this is worth it
 	public void setViewToSummary(String name) {
 		try {
 			view.setText(db.getSummaryOf(name));
