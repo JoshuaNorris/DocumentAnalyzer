@@ -47,7 +47,7 @@ public class KMPScoreCalculator {
 			return num;
 		} else {
 			char firstLetter = str.charAt(0);
-			if (queryFirstLetter == firstLetter) {
+			if (queryFirstLetter == firstLetter || (Character.toUpperCase(queryFirstLetter) == firstLetter)) {
 				num += calculateScore(str, query);
 			} // I could add a case to check for the second letter here.
 			str = str.substring(1);

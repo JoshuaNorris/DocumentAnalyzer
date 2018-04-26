@@ -17,7 +17,7 @@ public class KMPScoreCalculatorTest {
 		list1.add("hi");
 		String query1 = "blue";
 		KMPScoreCalculator test1 = new KMPScoreCalculator(query1, list1);
-		assertTrue(test1.run() == 4.0);
+		assertTrue(test1.run() == 3.5);
 		
 		ArrayList<String> list2 = new ArrayList<String>();
 		list2.add("hello");
@@ -26,22 +26,22 @@ public class KMPScoreCalculatorTest {
 		list2.add("blrue");
 		String query2 = "blue";
 		KMPScoreCalculator test2 = new KMPScoreCalculator(query2, list2);
-		assertTrue(test2.run() == 7.5);
+		assertTrue(test2.run() == 5.75);
 	}
 	
 	@Test
 	public void calculateScoreTest() {
 		String str1 = "blue";
 		String query1 = "blue";
-		assertTrue(KMPScoreCalculator.calculateScore(str1, query1) == 4.0);
+		assertTrue(KMPScoreCalculator.calculateScore(str1, query1) == 14.0);
 		
 		String str2 = "blrue";
 		String query2 = query1;
-		assertTrue(KMPScoreCalculator.calculateScore(str2, query2) == 3.5);
+		assertTrue(KMPScoreCalculator.calculateScore(str2, query2) == 9.0);
 
 		String str3 = "blrrrue";
 		String query3 = query1;
-		assertTrue(KMPScoreCalculator.calculateScore(str3, query3) == 2);
+		assertTrue(KMPScoreCalculator.calculateScore(str3, query3) == 5);
 	}
 	
 	@Test
@@ -56,7 +56,7 @@ public class KMPScoreCalculatorTest {
 		
 		KMPScoreCalculator test1 = new KMPScoreCalculator(query1, list1);
 		
-		System.out.println(test1.run() == 4.0);
+		System.out.println(test1.run());
 	}
 
 }
