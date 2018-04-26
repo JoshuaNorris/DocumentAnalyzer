@@ -69,10 +69,10 @@ public class GUIController {
 		    public void handle(MouseEvent click) {
 
 		        if (click.getClickCount() == 2) {
-							if (!articlesList.isEmpty()){
+							//if (!articlesList.isEmpty()){
 		           String currentItemSelected = articlesList.getSelectionModel().getSelectedItem();
 		           loadArticleViewer(currentItemSelected);
-						 }
+						 //}
 		        }
 		    }
 		});

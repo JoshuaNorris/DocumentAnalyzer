@@ -1,0 +1,96 @@
+The brain is one of the most complex organs in the biological body, which is analogous 
+to the central processing unit (CPU) in a computer, with respect to its role. The main 
+function of a CPU is to convert input into logical operations where all of them are 
+predefined by the developer. On the contrary, the human brain, similar to that of the 
+advanced species in the animal kingdom, is capable of converting the both known and 
+unknown input into output where most of the conversion processes are still a mystery. 
+Therefore, deciphering the behavior of the human brain has been a major subject of 
+interest for mankind. This has been moderately accomplished by examining the 
+electroencephalography (EEG) signals. Simply, EEG is a tool that measures and monitors 
+the electrical activity of the brain and records patterns of the brain activity [4, 5]. 
+The original EEG data is not sufficient to define the antipodal connectivity between 
+neural communities since it operates at a single dimension, which considers the voltage 
+from each electrode as the source of the brain activity. The voltage emerging from 
+electrical activities in the brain is collected via the limited cross-sectional area of each 
+electrode. In reality it is a result of electrical activity stemming from a network of 
+neurons. Millions of neurons are interacting with each other while the EEG records the 
+data at a single electrode. Additionally, the brain has a complex structure that cannot be 
+considered as a flat structure. In fact it resembles a hemisphere comprising a lot of 
+smaller curves, where the cerebrospinal fluid (CSF) fills the crevices. Both cerebral 
+cortex and CSF are electrically conductive. It is a well-known fact that the electrical 
+charges inside the closed surface will move freely inside the solid electrical conductor 
+until the excess charges gather on the surface of the conductor (Figure 1). These charges will create an electrical field surrounding the sphere as stated in Gauss’ Law [6, 7, 8]. 
+Therefore, models that facilitate projection of one-dimensional EEG data over a three
+dimensional hemisphere are essential to understand the wiring principles of the brain. Brain activity stemming from the interaction of the neural populations recorded as waves 
+at different frequencies suggest that there may be a distinct communication level between 
+the neural populations. Identifying such a distinguished communication level will be 
+quintessential to interpreting the brain dynamics. Therefore, the occurrence rate of 
+antipodal connectivity for each wave may be used to better understand the behavior of 
+neural populations. Hence, the following hypotheses were identified to not only support 
+the behavioral assumptions but also help us to achieve additional relevant objectives.A neural network, which has the property of a modular/colonial structure and controls the 
+information behavior of a human is governed with a set of organizational principles. The 
+structure in this modular/colonial environment is hierarchical and connections are 
+established through the mutually exclusive nodes. In other words, neural structures use 
+densely intra-connected nodes not only to form modules but also to play a sparsely inter
+connector role to establish communication channels (or paths) with other nodes of other 
+modules [9]. However, we believe the size, boundary, hierarchy and 
+assignments/responsibilities of neural communities are dynamic, in opposition to the 
+general concept of predetermined size of modules. Therefore, in spite of the general 
+convention of identifying the closely coupled neurons as “neural modules”, we prefer a 
+new term; “neural communities” because the word “community” not only symbolizes the 
+dynamic relationships in a society but also emphasizes the hierarchical foundation of it. Brain waves operating at different frequencies are related to different functions of the brain 
+[10]. This has been a hot topic for physicians and researchers in the last several decades, 
+while the studies have often been limited by the capabilities of the EEG system. Therefore, 
+use of the EEG system has decreased in recent years with the introduction of new 
+technologies. 
+EEG was proven to be an effective system to detect and distinguish brain waves. However, 
+the problem emerges at the interpretation level where the traditional methods fail to 
+comprehend the dynamics beyond the capabilities of the EEG system. Additionally, 
+methods such as MEG (Magnetoencephalography), Diffusion Tensor Imaging (DTI) or 
+diffusion-MRI (Magnetic Resonance Imaging), fMRI (functional-MRI) are among the 
+studies developed to analyze neural activity. These methods are based on inductive 
+reasoning, which provides substantial evidence for the conclusion. In other words, the final 
+conclusion is made by examining the relationship between smaller fragments of a larger 
+implication. Although, these methods have been proven to be effective in neural analysis, 
+one fundamental disadvantage is in the defining of the size of the fragments. This is a 
+tedious task because of the immense number (~100 billion) of neurons in the mammalian 
+brain. Moreover, the mammalian brain operates non-linearly, inferring that the size of the 
+modules is dynamic and that the contributions of these modules neither have similar effects 
+on the final conclusion nor are the effects on modules evenly distributed. Therefore, a new 
+approach in neural analysis based on deductive reasoning introduces a better perception 
+than the existing methodology.For the reasons explained above, EEG emerges as an excellent candidate for utilizing the 
+deductive approach because of the data collection method. However, the existing EEG 
+data analysis methods are not competent for this task and an enhanced and innovative 
+data analysis model is necessary to: 1) contemplate the voltage emerging from neural electrical activity via the limited cross-sectional area of the electrode in a single 
+dimension and 2) collect EEG data from separate electrodes (channels) for simultaneous 
+correlation in the third-dimensional complex domain.  
+The new approach considers data as pairs based on their similarities in a three
+dimensional (3D) fashion. Transformation-Normalization-Projection (PNT) used in 
+COGSIP projects single-dimensional EEG data into three-dimensions after extracting the 
+amplitude and phase angle information using the Hilbert transformation. Consecutively, 
+the projected EEG data from each channel is correlated, and the identical degree of 
+similarity between two EEG channels at each discreet time-step is defined as “antipodal 
+connectivity of neural populations”. A schematic representation of this property is 
+provided in Figure 3. 
+ Antipodal connectivity of neural populations is envisioned to have potential 
+implementations. The occurrence frequency of antipodal connectivity is predicted to 
+depend on various factors such as age, sex, mental health, stress, environment, dangerous 
+situations, etc. An advanced cognitive map of the brain can be developed when the 
+occurrence rate of antipodal connectivity is associated with different functions of the 
+brain. Additionally, by correlating the occurrence frequency for different situations, it 
+may be possible to detect brain conditions and disabilities such as autism, epilepsy, 
+bipolar disorder, Alzheimer’s disease, dementia, etc. In almost all cases, especially in 
+infants and seniors, the progression of mental conditions can be prevented with an early 
+diagnosis. For example, the treatment of autism is extremely difficult. However, it is 
+crucial to diagnose it in earlier ages because its progression can be suspended with proper 
+education of the individual. Moreover, according to the CDC, “epilepsy affects about 2.3 
+million adults and 467,711 children 0-17 years of age in the United States” [11, 12]. 
+Predicting the time of an epilepsy seizure is critical for patients to take action in order to 
+prevent life threatening consequences. Therefore, classifying the frequency of antipodal 
+connectivity for distinctive brain activities is proposed to provide a better perspective in 
+cognitive decision mechanism. 
+1.3 Proposed Approach 
+The complexity of the neural behavior can be understood if radical approaches containing 
+more effective methods are introduced. Therefore, within the scope of this investigation, 
+a system based on two new mathematical models and the associated prototype to monitor 
+the dynamic behavior of neural population is introduced.  

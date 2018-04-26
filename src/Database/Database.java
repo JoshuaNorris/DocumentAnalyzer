@@ -20,6 +20,7 @@ public class Database {
 		stat.executeUpdate("CREATE TABLE IF NOT EXISTS document_full(title String, body String, summary String);");
 		stat.executeUpdate(
 				"CREATE TABLE IF NOT EXISTS document_summary(title String, sentence String, numSentence INTEGER, score INTEGER);");
+		stat.executeUpdate("CREATE TABLE IF NOT EXISTS document_keywords(title String, keyword String);");
 		// dropTables();
 	}
 
@@ -33,13 +34,20 @@ public class Database {
 				+ "', '" + summary + "');");
 	}
 
-	public void insertSummarySentence(String title, String sentence,  int index, double score) throws SQLException {
+	public void insertSummarySentence(String title, String sentence,  int index, int score) throws SQLException {
 		String safeTitle = title.replace("'", "''");
 		String safeSentence = sentence.replace("'", "''");
 		System.out.println("INSERT INTO document_summary (title, sentence, numSentence, score) VALUES ('" + safeTitle + "', '"
 				+ safeSentence + "', " + index + ", " + score + ";)");
 		stat.executeUpdate("INSERT INTO document_summary (title, sentence, numSentence, score) VALUES ('" + safeTitle + "', '"
 				+ safeSentence + "', " + index + ", " + score + ");");
+	}
+	
+	public void insertKeyword(String title, String word) throws SQLException {
+		String safeTitle = title.replace("'", "''");
+		String safeKey = word.replace("'", "''");
+		stat.executeUpdate("INSERT INTO document_keywords (title, keyword) VALUES ('" + safeTitle + "', '"
+				+ safeKey + ");");
 	}
 
 	public ObservableList<String> getAllArticles() throws SQLException {
@@ -91,7 +99,17 @@ public class Database {
 			finalSummary += info.getString("sentence").replace("''", "'") + " ";
 		}
 		return finalSummary;
-	}//order by 2 things
+	}
+	
+	public ObservableList<String> getKeywords(String title) throws SQLException {
+		ObservableList<String> keywords = FXCollections.observableArrayList();
+		String safeTitle = title.replace("'", "''");
+		ResultSet info = stat.executeQuery("SELECT keyword FROM '" + safeTitle + "'");
+		while (info.next()) {
+			keywords.add(info.getString("keyword"));
+		}
+		return keywords;
+	}
 
 	private void dropTables() throws SQLException {
 		stat.executeUpdate("DROP TABLE document_full");
