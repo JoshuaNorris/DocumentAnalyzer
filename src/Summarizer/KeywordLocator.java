@@ -1,5 +1,6 @@
 package Summarizer;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -11,19 +12,21 @@ public class KeywordLocator {
 	
 	private int numOfKeywords;
 	private String document;
+	private String title;
 	
-	public KeywordLocator(int numOfKeywords, String document) {
+	public KeywordLocator(int numOfKeywords, String document, String title) {
+		this.title = title;
 		this.numOfKeywords = numOfKeywords;
 		this.document = document; 
 	}
 
-	public void insertRelatedWordsInDatabase() {
+	public void insertRelatedWordsInDatabase() throws SQLException {
 		DocumentContainer documentContainer = new DocumentContainer(document);
 		HashMap<String, Double> searchesWithScores = documentContainer.getTermFrequency();
 		ArrayList<String> result = new ArrayList<String>();
 		for (int x = 0; x < numOfKeywords; x++) {
 			String vote = getHighestVote(searchesWithScores);
-			GUIController.db.insertKeyword(vote);
+			GUIController.db.insertKeyword(title, vote);
 			searchesWithScores.remove(vote);
 		}
 	}
