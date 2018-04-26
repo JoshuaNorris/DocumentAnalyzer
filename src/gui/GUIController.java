@@ -24,27 +24,27 @@ import javafx.scene.input.MouseEvent;
 public class GUIController {
 	@FXML
 	Button search, back, viewSummary, viewFull;
-
+	
 	@FXML
 	TextField searchBar;
-
+	
 	@FXML
 	ListView<String> articlesList;
-
+	
 	@FXML
 	TextArea view;
-
+	
 	@FXML
 	Label title, keywords;
-
+	
 	@FXML
 	Tab articlesTab;
-
+	
 	@FXML
 	TabPane tabHolder;
-
+	
 	static BadNews error;
-
+	
 	public static Database db;
 	static {
 		try {
@@ -54,13 +54,13 @@ public class GUIController {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void initialize() {
 		articlesTab.setDisable(true);
 		view.setEditable(false);
 		setUpListView();
 	}
-
+	
 	private void setUpListView() {
 		populateArticlesList();
 		articlesList.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -80,15 +80,15 @@ public class GUIController {
 	public void pressLoadFileButton() {
 		//Oracle documentation
 		try {
-		FileChooser chooser = new FileChooser();
-		chooser.setTitle("Open File");
-		File choosenFile = chooser.showOpenDialog(new Stage());
+		JFileChooser chooser= new JFileChooser();
+		int choice = chooser.showOpenDialog(null);
+		File chosenFile = chooser.getSelectedFile();
 		if (chosenFile == null) {return;}
-		if (!acceptFile(chosenFile)) {
+		if (!acceptFile(chosenFile)) {									
 			pressLoadFileButton();
 		}
 		String filename = chosenFile.getName();
-		Scanner s = new Scanner(chosenFile);
+		Scanner s = new Scanner(chosenFile);		
 		String wholeFile = s.useDelimiter("\\A").next();
 		putFileinDatabase(filename.substring(0, filename.length() - 4), wholeFile);
 		s.close();
@@ -97,7 +97,7 @@ public class GUIController {
 		}
 		populateArticlesList();
 	}
-
+	
 	private void putFileinDatabase(String name, String fullText) {
 		try {
 			db.insertDocument(name, fullText);
@@ -114,7 +114,7 @@ public class GUIController {
 	    	return true;
 	    } return false;
 	}
-
+	
 	public void populateArticlesList() {
 		try {
 			articlesList.setItems(db.getAllArticles());
@@ -123,7 +123,7 @@ public class GUIController {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void loadArticleViewer(String filename) {
 		articlesTab.setText(filename);
 		articlesTab.setDisable(false);
@@ -131,28 +131,28 @@ public class GUIController {
 		title.setText(filename);
 		setViewToSummary(filename);
 	}
-
+	
 	public void pressSeeSummary() {
 		String title = articlesTab.getText();
 		setViewToSummary(title);
 	}
-
+	
 	//TODO ask if this is worth it
 	public void setViewToSummary(String name) {
 		try {
 			view.setText(db.getSummaryOf(name));
 		} catch (SQLException e) {
-			//TODO
+			//TODO 
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void setViewToFull() {
 		String title = articlesTab.getText();
 		try {
 			view.setText(db.getFullTextOf(title));
 		} catch (SQLException e) {
-			//TODO
+			//TODO 
 			e.printStackTrace();
 		}
 	}
