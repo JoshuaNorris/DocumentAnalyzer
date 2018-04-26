@@ -23,7 +23,7 @@ public class KeywordLocator {
 		ArrayList<String> result = new ArrayList<String>();
 		for (int x = 0; x < numOfKeywords; x++) {
 			String vote = getHighestVote(searchesWithScores);
-			GUIController.db.insertKeyWord(vote);
+			GUIController.db.insertKeyword(vote);
 			searchesWithScores.remove(vote);
 		}
 	}
