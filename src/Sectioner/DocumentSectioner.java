@@ -18,7 +18,7 @@ public class DocumentSectioner {
 
 	private ArrayList<String> section(DocumentContainer text) {
 		ArrayList<String> finalSections = new ArrayList<String>();
-		
+		finalSections.add(e);
 		return finalSections;
 	}
 	

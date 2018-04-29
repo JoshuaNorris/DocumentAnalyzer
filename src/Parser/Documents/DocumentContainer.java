@@ -1,14 +1,11 @@
 package Parser.Documents;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.TreeMap;
 import Parser.Documents.ParsingDocuments.SentenceGenerator;
 import Parser.Documents.ParsingDocuments.SentenceandWordGenerator;
-=======
 
->>>>>>> fb1832b4597561b982e5f37b35d795b28a4d10a6
 import Parser.Documents.ParsingDocuments.TermFrequencyGenerator;
 import Parser.Documents.ParsingDocuments.WordGenerator;
 import javafx.util.Pair;
