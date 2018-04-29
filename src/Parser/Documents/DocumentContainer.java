@@ -29,16 +29,12 @@ public class DocumentContainer {
 		return words.run();
 	}
 	
-<<<<<<< HEAD
 	public TreeMap<String, Double> getTermFrequency() {
-=======
 	public ArrayList<Pair<String, Double>> getTermFrequency() {
->>>>>>> fb1832b4597561b982e5f37b35d795b28a4d10a6
 		TermFrequencyGenerator tf = new TermFrequencyGenerator(getWords());
 		return tf.getResult();
 	}
 	
-<<<<<<< HEAD
 	public ArrayList<String> getSentences() {
 		SentenceGenerator sentences = new SentenceGenerator(doc);
 		return sentences.run();
@@ -53,5 +49,4 @@ public class DocumentContainer {
 	// result.firstEntry() gives the lowest value of the TreeMap result
 	
 =======
->>>>>>> fb1832b4597561b982e5f37b35d795b28a4d10a6
 }
