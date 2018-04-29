@@ -3,53 +3,71 @@ package Searcher;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import Parser.Documents.*;
-import Searcher.NetSearcher.NetSearcher;
+import Searcher.NetSearcher.KMPScore.KMPScoreCalculator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Searcher {
 
 	private String query;
-	private DocumentContainer documents;
-	private ArrayList<String> searchResults;
+	private String document;
 
 	public Searcher(String query, String document) {
 		this.query = query;
-		this.documents = new DocumentContainer(document);
-		this.searchResults = runSearch();
+		this.document = document;
 	}
 
-	public ObservableList<String> getSearchResults() {return arrayToObservableList(searchResults);};
-
-	private ArrayList<String> runSearch() {
-		NetSearcher netSearch = new NetSearcher(query, documents);
-		return netSearch.run();
+	public ObservableList<String> getSearchResults(int numOfResults) {
+		ObservableList<String> results = getTopResults(numOfResults);
+		return results;
 	}
 
-	public ObservableList<String> getRelatedWords() {
-		String topSearches = changeToString(this.searchResults);
+	private ObservableList<String> getTopResults(int numOfResults) {
+		TreeMap<Double, String> searchResults = runSearch();
+		ObservableList<String> result = FXCollections.observableArrayList();
+		
+		for (int x = 0; x < numOfResults; x++) {
+			System.out.println(searchResults);
+			result.add(searchResults.lastEntry().getValue());
+			searchResults.remove(searchResults.lastEntry().getKey(), searchResults.lastEntry().getValue());
+		}
+		
+		return result;
+	}
+
+	private TreeMap<Double, String> runSearch() {
+		KMPScoreCalculator search = new KMPScoreCalculator(query, document);
+		return search.getResult();
+	}
+
+	public ObservableList<String> getRelatedWords(int numOfResultsConsidered) {
+		ObservableList<String> searchResults = getTopResults(numOfResultsConsidered);
+		
+		String topSearches = changeToString(searchResults);
 		DocumentContainer searches = new DocumentContainer(topSearches);
 		HashMap<String, Double> searchesWithScores = searches.getTermFrequency();
 		ArrayList<String> result = new ArrayList<String>();
 		searchesWithScores.remove(this.query);
-		for (int x = 0; x < 5; x++) {
+		for (int x = 0; x < searchResults.size(); x++) {
 			String vote = getHighestVote(searchesWithScores);
 			result.add(vote);
 			searchesWithScores.remove(vote);
 		}
 		return arrayToObservableList(result);
 	}
-
-	private String changeToString(ArrayList<String> searchResults) {
+	
+	private String changeToString(ObservableList<String> searchResults) {
 		String result = "";
-		for (int x = 0; x < 5; x++) {
-			result += searchResults.get(x);
+		for (int x = 0; x < searchResults.size(); x++) {
+			result += " " + searchResults.get(x);
 		}
+		result = result.substring(1);
 		return result;
 	}
-	
+
 	private ObservableList<String> arrayToObservableList(ArrayList<String> array) {
 		ObservableList<String> result = FXCollections.observableArrayList();
 		result.addAll(array);
