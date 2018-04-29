@@ -129,13 +129,12 @@ public class Database {
 		stat.executeUpdate("DELETE FROM document_summary WHERE title='" + safeTitle + "';");
 		stat.executeUpdate("DELETE FROM document_keywords WHERE title='" + safeTitle + "';");
 	}
+	
 	private String makeSafe(String word) {
 		String safe = word.replace("'", "''");
 		return safe;
 	}
 	
-	
-
 	private void dropTables() throws SQLException {
 		stat.executeUpdate("DROP TABLE document_full");
 		stat.executeUpdate("DROP TABLE document_summary");

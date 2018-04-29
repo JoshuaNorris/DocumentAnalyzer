@@ -20,6 +20,9 @@ public class TermFrequencyGenerator {
 	
 	public ArrayList<Pair<String, Double>> getResult() {return result;};
 
+<<<<<<< HEAD
+	public TreeMap<String, Double> getResult() {return result;};
+=======
 	private ArrayList< Pair<String, Double>> calculateResult() {
 		HashMap<String, Double> map = run();
 		TreeMap<Double, String> result = new TreeMap<Double, String>();
@@ -29,6 +32,7 @@ public class TermFrequencyGenerator {
 		return getOrderedList(result);
 	}
 	
+>>>>>>> fb1832b4597561b982e5f37b35d795b28a4d10a6
 	
 	private ArrayList<Pair<String, Double>> getOrderedList(TreeMap<Double, String> mapResult) {
 		ArrayList<Pair<String, Double>> result = new ArrayList<Pair<String, Double>>();
@@ -55,8 +59,13 @@ public class TermFrequencyGenerator {
 		tf = averageWordcounts(tf, noDuplicates);
 		return tf;
 	}
+<<<<<<< HEAD
+	
+	private TreeMap<String, Double> averageWordcounts(TreeMap<String, Double> tf, ArrayList<String> noDuplicates) {
+=======
 
 	private HashMap<String, Double> averageWordcounts(HashMap<String, Double> tf, ArrayList<String> noDuplicates) {
+>>>>>>> fb1832b4597561b982e5f37b35d795b28a4d10a6
 		for (int x = 0; x < noDuplicates.size(); x++) {
 			tf.put(noDuplicates.get(x), tf.get(noDuplicates.get(x)) / words.size());
 		}
