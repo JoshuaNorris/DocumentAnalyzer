@@ -99,7 +99,7 @@ public class GUIController {
 		String wholeFile = s.useDelimiter("\\A").next();
 		String m = filename.substring(0, filename.length() - fileExtension.length());
 		if (db.documentExists(m)){
-			dubCheck(m + '1',1);
+			m = dubCheck(m + '1',1);
 		}
 		putFileinDatabase(m, wholeFile);
 		s.close();
