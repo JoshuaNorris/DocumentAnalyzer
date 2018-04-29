@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import Parser.Documents.DocumentContainer;
 import gui.GUIController;
+import javafx.util.Pair;
 
 public class KeywordLocator {
 	
@@ -22,10 +23,9 @@ public class KeywordLocator {
 
 	public void insertRelatedWordsInDatabase() throws SQLException {
 		DocumentContainer documentContainer = new DocumentContainer(document);
-		HashMap<String, Double> searchesWithScores = documentContainer.getTermFrequency();
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<Pair<String, Double>> searchesWithScores = documentContainer.getTermFrequency();
 		for (int x = 0; x < numOfKeywords; x++) {
-			String vote = getHighestVote(searchesWithScores);
+			String vote = searchesWithScores.get(x).getKey();
 			GUIController.db.insertKeyword(title, vote);
 			searchesWithScores.remove(vote);
 		}
@@ -51,3 +51,4 @@ public class KeywordLocator {
 
 
 }
+	
