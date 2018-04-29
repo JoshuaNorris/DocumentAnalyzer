@@ -6,21 +6,47 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import Parser.Documents.*;
-import Searcher.NetSearcher.KMPScore.KMPScoreCalculator;
+import Searcher.KMPScore.KMPScoreCalculator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.Pair;
 
 public class Searcher {
 
 	private String query;
 	private String document;
+	private double inarowWeight;
+	private double scoreWeight;
+	private ObservableList<String> searchResults;
 
-	public Searcher(String query, String document) {
+	public Searcher(String query, String document, double inarowWeight, double scoreWeight, int numOfResults) {
 		this.query = query;
 		this.document = document;
+		this.inarowWeight = inarowWeight;
+		this.scoreWeight = scoreWeight;
+		this.searchResults = calculateSearchResults(numOfResults);
 	}
+	
+	public Searcher (String query, String document, int numOfResults) {
+		this(query, document, 1.0, 1.0, numOfResults);
+	}
+	
+	public Searcher (String query, ObservableList<String> titles, int numOfResults) {
+		this(query, titlesToDocument(titles), 1.0, 1.0, numOfResults);
+	}
+	
+	private static String titlesToDocument(ObservableList<String> titles) {
+		String result = "";
+		for (int x = 0; x < titles.size(); x++) {
+			result += titles.get(x) + '|';
+			// add error handling for this.
+		}
+		return result;
+	}
+	
+	public ObservableList<String> getSearchResults () {return searchResults;};
 
-	public ObservableList<String> getSearchResults(int numOfResults) {
+	private ObservableList<String> calculateSearchResults(int numOfResults) {
 		ObservableList<String> results = getTopResults(numOfResults);
 		return results;
 	}
@@ -28,9 +54,11 @@ public class Searcher {
 	private ObservableList<String> getTopResults(int numOfResults) {
 		TreeMap<Double, String> searchResults = runSearch();
 		ObservableList<String> result = FXCollections.observableArrayList();
+		if (numOfResults > searchResults.size()) {
+			numOfResults = searchResults.size();
+		}
 		
 		for (int x = 0; x < numOfResults; x++) {
-			System.out.println(searchResults);
 			result.add(searchResults.lastEntry().getValue());
 			searchResults.remove(searchResults.lastEntry().getKey(), searchResults.lastEntry().getValue());
 		}
@@ -39,24 +67,16 @@ public class Searcher {
 	}
 
 	private TreeMap<Double, String> runSearch() {
-		KMPScoreCalculator search = new KMPScoreCalculator(query, document);
+		KMPScoreCalculator search = new KMPScoreCalculator(query, document, inarowWeight, scoreWeight);
 		return search.getResult();
 	}
 
 	public ObservableList<String> getRelatedWords(int numOfResultsConsidered) {
 		ObservableList<String> searchResults = getTopResults(numOfResultsConsidered);
-		
 		String topSearches = changeToString(searchResults);
 		DocumentContainer searches = new DocumentContainer(topSearches);
-		HashMap<String, Double> searchesWithScores = searches.getTermFrequency();
-		ArrayList<String> result = new ArrayList<String>();
-		searchesWithScores.remove(this.query);
-		for (int x = 0; x < searchResults.size(); x++) {
-			String vote = getHighestVote(searchesWithScores);
-			result.add(vote);
-			searchesWithScores.remove(vote);
-		}
-		return arrayToObservableList(result);
+		ArrayList<Pair<String, Double>> searchesWithScores = searches.getTermFrequency();
+		return arrayToObservableList(searchesWithScores);
 	}
 	
 	private String changeToString(ObservableList<String> searchResults) {
@@ -68,9 +88,11 @@ public class Searcher {
 		return result;
 	}
 
-	private ObservableList<String> arrayToObservableList(ArrayList<String> array) {
+	private ObservableList<String> arrayToObservableList(ArrayList<Pair <String, Double>> array) {
 		ObservableList<String> result = FXCollections.observableArrayList();
-		result.addAll(array);
+		for (int x = 0; x < array.size(); x++) {
+			result.add(array.get(x).getKey());
+		}
 		return result;
 	}
 

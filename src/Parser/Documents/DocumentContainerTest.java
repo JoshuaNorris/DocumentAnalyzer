@@ -1,29 +1,22 @@
 package Parser.Documents;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
 import org.junit.Test;
-
-import Parser.Parser;
 
 public class DocumentContainerTest {
 
 	@Test
 	public void test() {
-		String str1 = "hello my name is Josh how are you doing today? The weather is great outside.";
-		String str2 = "Wow that is super cool. How are you enjoying this day. DO you like the class.";
-		String str3 = "I like the color blue. Orange is a good color too I guess. But red is not so good.";
-		ArrayList<String> strs1 = new ArrayList<String>();
-		strs1.add(str1);
-		strs1.add(str2);
-		strs1.add(str3);
-		Parser docs1 = new Parser(strs1);
-		ArrayList<ArrayList<String>> test1 = docs1.getAllSentenceandWordsCombined();
-		assertTrue(test1.get(0).size() == 3);
-		assertTrue(test1.get(2).size() == 3);
-		assertTrue(test1.get(5).size() == 2);
+		String doc1 = "Hello my name is Josh how are you doing today? I am writing this program in an "
+				+ "imperative language called java. I wonder where they got the name java from, it must "
+				+ "be some kind of pun off of coffee. Anyways java is a super cool language java. Java also "
+				+ "can be a very not cool language. This was seen today when I was trying to code in java. "
+				+ "Then I realized I wanted a second constructor. I made this constructor and then continued "
+				+ "to try to call the first constructor in java form the second. This did not work because java "
+				+ "requires that one use the word 'this' in replacment for the constructor's actual name. It also "
+				+ "has to be the first line of code in the constructor which seems like a super dumb thing in java.";
+		DocumentContainer docContainer = new DocumentContainer(doc1);
+		
+		System.out.println(docContainer.getTermFrequency());
 	}
 
 }
