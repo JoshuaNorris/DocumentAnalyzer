@@ -161,21 +161,15 @@ public class GUIController {
 		String title = articlesTab.getText();
 		setViewToSummary(title);
 	}
-<<<<<<< HEAD
-	
-=======
+
 
 	//TODO ask if this is worth it
->>>>>>> fb1832b4597561b982e5f37b35d795b28a4d10a6
 	public void setViewToSummary(String name) {
 		try {
 			view.setText(db.getSummaryOf(name));
 		} catch (SQLException e) {
-<<<<<<< HEAD
 			error = new BadNews("We could not load the summary."); 
-=======
 			//TODO
->>>>>>> fb1832b4597561b982e5f37b35d795b28a4d10a6
 			e.printStackTrace();
 		}
 	}
@@ -185,11 +179,8 @@ public class GUIController {
 		try {
 			view.setText(db.getFullTextOf(title));
 		} catch (SQLException e) {
-<<<<<<< HEAD
 			error = new BadNews("We could not load the full text."); 
-=======
 			//TODO
->>>>>>> fb1832b4597561b982e5f37b35d795b28a4d10a6
 			e.printStackTrace();
 		}
 	}
