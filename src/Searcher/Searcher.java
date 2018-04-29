@@ -37,7 +37,8 @@ public class Searcher {
 	private static String titlesToDocument(ObservableList<String> titles) {
 		String result = "";
 		for (int x = 0; x < titles.size(); x++) {
-			result += titles.get(x) + '§';
+			result += titles.get(x) + '|';
+			// add error handling for this.
 		}
 		return result;
 	}

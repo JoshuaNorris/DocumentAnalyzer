@@ -2,8 +2,6 @@ package Searcher.KMPScore;
 
 import java.util.TreeMap;
 
-import javafx.collections.ObservableList;
-
 public class KMPScoreCalculator {
 
 	private String query;
@@ -33,7 +31,7 @@ public class KMPScoreCalculator {
 		for (int x = 0; x < document.length(); x++) {
 			thisChar = document.charAt(x);
 			currentSentence += thisChar;
-			if (thisChar == '§') {
+			if (thisChar == '|') {
 				result.put(currentScore, currentSentence.substring(0, currentSentence.length() - 1));
 				currentSentence = "";
 				currentScore = 0.0;
