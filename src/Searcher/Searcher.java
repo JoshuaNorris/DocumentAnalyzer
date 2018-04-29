@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import Parser.Documents.*;
-import Searcher.NetSearcher.KMPScore.KMPScoreCalculator;
+import Searcher.KMPScore.KMPScoreCalculator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -14,13 +14,37 @@ public class Searcher {
 
 	private String query;
 	private String document;
+	private double inarowWeight;
+	private double scoreWeight;
+	private ObservableList<String> searchResults;
 
-	public Searcher(String query, String document) {
+	public Searcher(String query, String document, double inarowWeight, double scoreWeight, int numOfResults) {
 		this.query = query;
 		this.document = document;
+		this.inarowWeight = inarowWeight;
+		this.scoreWeight = scoreWeight;
+		this.searchResults = calculateSearchResults(numOfResults);
 	}
+	
+	public Searcher (String query, String document, int numOfResults) {
+		this(query, document, 1.0, 1.0, numOfResults);
+	}
+	
+	public Searcher (String query, ObservableList<String> titles, int numOfResults) {
+		this(query, titlesToDocument(titles), 1.0, 1.0, numOfResults);
+	}
+	
+	private static String titlesToDocument(ObservableList<String> titles) {
+		String result = "";
+		for (int x = 0; x < titles.size(); x++) {
+			result += titles.get(x) + '§';
+		}
+		return result;
+	}
+	
+	public ObservableList<String> getSearchResults () {return searchResults;};
 
-	public ObservableList<String> getSearchResults(int numOfResults) {
+	private ObservableList<String> calculateSearchResults(int numOfResults) {
 		ObservableList<String> results = getTopResults(numOfResults);
 		return results;
 	}
@@ -28,9 +52,11 @@ public class Searcher {
 	private ObservableList<String> getTopResults(int numOfResults) {
 		TreeMap<Double, String> searchResults = runSearch();
 		ObservableList<String> result = FXCollections.observableArrayList();
+		if (numOfResults > searchResults.size()) {
+			numOfResults = searchResults.size();
+		}
 		
 		for (int x = 0; x < numOfResults; x++) {
-			System.out.println(searchResults);
 			result.add(searchResults.lastEntry().getValue());
 			searchResults.remove(searchResults.lastEntry().getKey(), searchResults.lastEntry().getValue());
 		}
@@ -39,7 +65,7 @@ public class Searcher {
 	}
 
 	private TreeMap<Double, String> runSearch() {
-		KMPScoreCalculator search = new KMPScoreCalculator(query, document);
+		KMPScoreCalculator search = new KMPScoreCalculator(query, document, inarowWeight, scoreWeight);
 		return search.getResult();
 	}
 
