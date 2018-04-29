@@ -25,29 +25,25 @@ public class Database {
 	}
 
 	public void insertDocument(String title, String text) throws SQLException {
-		String safeTitle = title.replace("'", "''");
-		String safeText = text.replace("'", "''");
+		String safeTitle = makeSafe(title);
+		String safeText = makeSafe(text);
 		String summary = "in sum: " + safeText; // TODO
-		System.out.println("INSERT INTO document_full (title, body, summary) VALUES ('" + safeTitle + "', '" + safeText
-				+ "', '" + summary + "');");
 		stat.executeUpdate("INSERT INTO document_full (title, body, summary) VALUES ('" + safeTitle + "', '" + safeText
 				+ "', '" + summary + "');");
 	}
 
 	public void insertSummarySentence(String title, String sentence,  int index, int score) throws SQLException {
-		String safeTitle = title.replace("'", "''");
-		String safeSentence = sentence.replace("'", "''");
-		System.out.println("INSERT INTO document_summary (title, sentence, numSentence, score) VALUES ('" + safeTitle + "', '"
-				+ safeSentence + "', " + index + ", " + score + ";)");
+		String safeTitle = makeSafe(title);
+		String safeSentence = makeSafe(sentence);
 		stat.executeUpdate("INSERT INTO document_summary (title, sentence, numSentence, score) VALUES ('" + safeTitle + "', '"
 				+ safeSentence + "', " + index + ", " + score + ");");
 	}
 	
 	public void insertKeyword(String title, String word) throws SQLException {
-		String safeTitle = title.replace("'", "''");
-		String safeKey = word.replace("'", "''");
+		String safeTitle = makeSafe(title);
+		String safeKey = makeSafe(word);
 		stat.executeUpdate("INSERT INTO document_keywords (title, keyword) VALUES ('" + safeTitle + "', '"
-				+ safeKey + ");");
+				+ safeKey + "');");
 	}
 
 	public ObservableList<String> getAllArticles() throws SQLException {
@@ -57,8 +53,6 @@ public class Database {
 		StringBuilder temp = new StringBuilder();
 		ResultSet info = stat.executeQuery("SELECT title FROM document_full;");
 		while (info.next()) {
-			System.out.println("while get art");
-
 			temp.append(info.getString("title").replace("''", "'"));
 			articles.add(temp.toString());
 			temp.setLength(0); // clears Stringbuilder for new row
@@ -67,22 +61,20 @@ public class Database {
 	}
 
 	public String getSummaryOf(String title) throws SQLException {
-		String safeTitle = title.replace("'", "''");
+		String safeTitle = makeSafe(title);
 		String sum = "";
 		ResultSet info = stat.executeQuery("SELECT summary FROM document_full WHERE title = '" + safeTitle + "';");
 		while (info.next()) {
-			System.out.println("while get sum");
 			sum += info.getString("summary").replace("''", "'");
 		}
 		return sum;
 	}
 
 	public String getFullTextOf(String title) throws SQLException {
-		String safeTitle = title.replace("'", "''");
+		String safeTitle = makeSafe(title);
 		String full = "";
 		ResultSet info = stat.executeQuery("SELECT body FROM document_full WHERE title = '" + safeTitle + "';");
 		while (info.next()) {
-			System.out.println("while get body");
 			full += info.getString("body").replace("''", "'");
 		}
 		return full;
@@ -90,7 +82,7 @@ public class Database {
 
 	public String getTopSentencesOf(String title, int numSentences) throws SQLException {
 		String finalSummary = "";
-		String safeTitle = title.replace("'", "''");
+		String safeTitle = makeSafe(title);
 		ResultSet info = stat.executeQuery("SELECT sentence FROM("
 				+ "SELECT sentence, numSentence FROM document_summary WHERE title = '"
 				+ safeTitle + "' " + " ORDER BY score DESC LIMIT " + numSentences +")"
@@ -103,13 +95,46 @@ public class Database {
 	
 	public ObservableList<String> getKeywords(String title) throws SQLException {
 		ObservableList<String> keywords = FXCollections.observableArrayList();
-		String safeTitle = title.replace("'", "''");
-		ResultSet info = stat.executeQuery("SELECT keyword FROM '" + safeTitle + "'");
+		String safeTitle = makeSafe(title);
+		ResultSet info = stat.executeQuery("SELECT keyword FROM document_keywords WHERE title='" + safeTitle + "'");
 		while (info.next()) {
 			keywords.add(info.getString("keyword"));
 		}
 		return keywords;
 	}
+	
+	public ObservableList<String> getTitlesWithKeyword(String keyword) throws SQLException {
+		ObservableList<String> titles = FXCollections.observableArrayList();
+		String safeKeyword = makeSafe(keyword);
+		ResultSet info = stat.executeQuery("SELECT title FROM document_keywords WHERE keyword='" + safeKeyword +"';");
+		while (info.next()) {
+			titles.add(info.getString("title"));
+		}
+		return titles;
+	}
+
+	public boolean documentExists(String title) throws SQLException {
+		boolean bool = false;
+		String safeTitle = makeSafe(title);
+		ResultSet info = stat.executeQuery("SELECT title FROM document_full WHERE title='" + safeTitle + "';");
+		if (info.next()) {
+			bool = true;
+		}
+		return bool;
+	}
+	
+	public void deleteFile(String title) throws SQLException {
+		String safeTitle = makeSafe(title);
+		stat.executeUpdate("DELETE FROM document_full WHERE title='" + safeTitle + "';");
+		stat.executeUpdate("DELETE FROM document_summary WHERE title='" + safeTitle + "';");
+		stat.executeUpdate("DELETE FROM document_keywords WHERE title='" + safeTitle + "';");
+	}
+	private String makeSafe(String word) {
+		String safe = word.replace("'", "''");
+		return safe;
+	}
+	
+	
 
 	private void dropTables() throws SQLException {
 		stat.executeUpdate("DROP TABLE document_full");

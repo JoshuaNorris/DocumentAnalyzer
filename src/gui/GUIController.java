@@ -21,6 +21,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
+//TODO implement delete file button using deleteFile(title) from database
 public class GUIController {
 	@FXML
 	Button search, back, viewSummary, viewFull;
@@ -55,12 +56,15 @@ public class GUIController {
 		}
 	}
 	
+	
 	public void initialize() {
 		articlesTab.setDisable(true);
 		view.setEditable(false);
 		setUpListView();
 	}
+
 	
+
 	private void setUpListView() {
 		populateArticlesList();
 		articlesList.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -76,12 +80,12 @@ public class GUIController {
 		        }
 		    }
 		});
-
 	}
 
 	public void pressLoadFileButton() {
 		//Oracle documentation
 		try {
+		String fileExtension = ".txt";
 		JFileChooser chooser= new JFileChooser();
 		int choice = chooser.showOpenDialog(null);
 		File chosenFile = chooser.getSelectedFile();
@@ -92,7 +96,7 @@ public class GUIController {
 		String filename = chosenFile.getName();
 		Scanner s = new Scanner(chosenFile);		
 		String wholeFile = s.useDelimiter("\\A").next();
-		putFileinDatabase(filename.substring(0, filename.length() - 4), wholeFile);
+		putFileinDatabase(filename.substring(0, filename.length() - fileExtension.length()), wholeFile);
 		s.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
