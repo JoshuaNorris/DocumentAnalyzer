@@ -47,5 +47,4 @@ public class DocumentContainer {
 	// result.lastEntry() gives the highest value of the TreeMap result
 	// result.firstEntry() gives the lowest value of the TreeMap result
 	
-=======
 }
