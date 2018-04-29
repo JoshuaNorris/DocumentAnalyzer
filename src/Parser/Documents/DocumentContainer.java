@@ -29,7 +29,6 @@ public class DocumentContainer {
 		return words.run();
 	}
 	
-	public TreeMap<String, Double> getTermFrequency() {
 	public ArrayList<Pair<String, Double>> getTermFrequency() {
 		TermFrequencyGenerator tf = new TermFrequencyGenerator(getWords());
 		return tf.getResult();
