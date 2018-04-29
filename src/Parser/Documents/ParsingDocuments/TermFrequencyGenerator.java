@@ -2,17 +2,22 @@ package Parser.Documents.ParsingDocuments;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class TermFrequencyGenerator {
 
 	private ArrayList<String> words;
+	private TreeMap<String, Double> result;
 	
 	public TermFrequencyGenerator(ArrayList<String> words) {
 		this.words = words;
+		this.result = calculateResult();
 	}
 
-	public HashMap<String, Double> run() {
-		HashMap<String, Double> tf = new HashMap<String, Double>();
+	public TreeMap<Double, String> getResult() {return result;};
+	
+	private TreeMap<String, Double> calculateResult() {
+		TreeMap<String, Double> tf = new TreeMap<String, Double>();
 		ArrayList<String> noDuplicates = new ArrayList<String>();
 		for (int x = 0; x < words.size(); x++) {
 			if (!tf.containsKey(words.get(x))) {
@@ -27,8 +32,8 @@ public class TermFrequencyGenerator {
 		
 		return tf;
 	}
-
-	private HashMap<String, Double> averageWordcounts(HashMap<String, Double> tf, ArrayList<String> noDuplicates) {
+	
+	private TreeMap<Double, String> averageWordcounts(TreeMap<String, Double> tf, ArrayList<String> noDuplicates) {
 		for (int x = 0; x < noDuplicates.size(); x++) {
 			tf.put(noDuplicates.get(x), tf.get(noDuplicates.get(x)) / words.size());
 		}
