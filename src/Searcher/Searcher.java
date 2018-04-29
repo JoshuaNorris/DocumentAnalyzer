@@ -9,6 +9,7 @@ import Parser.Documents.*;
 import Searcher.KMPScore.KMPScoreCalculator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.Pair;
 
 public class Searcher {
 
@@ -72,18 +73,10 @@ public class Searcher {
 
 	public ObservableList<String> getRelatedWords(int numOfResultsConsidered) {
 		ObservableList<String> searchResults = getTopResults(numOfResultsConsidered);
-		
 		String topSearches = changeToString(searchResults);
 		DocumentContainer searches = new DocumentContainer(topSearches);
-		HashMap<String, Double> searchesWithScores = searches.getTermFrequency();
-		ArrayList<String> result = new ArrayList<String>();
-		searchesWithScores.remove(this.query);
-		for (int x = 0; x < searchResults.size(); x++) {
-			String vote = getHighestVote(searchesWithScores);
-			result.add(vote);
-			searchesWithScores.remove(vote);
-		}
-		return arrayToObservableList(result);
+		ArrayList<Pair<String, Double>> searchesWithScores = searches.getTermFrequency();
+		return arrayToObservableList(searchesWithScores);
 	}
 	
 	private String changeToString(ObservableList<String> searchResults) {
@@ -95,9 +88,11 @@ public class Searcher {
 		return result;
 	}
 
-	private ObservableList<String> arrayToObservableList(ArrayList<String> array) {
+	private ObservableList<String> arrayToObservableList(ArrayList<Pair <String, Double>> array) {
 		ObservableList<String> result = FXCollections.observableArrayList();
-		result.addAll(array);
+		for (int x = 0; x < array.size(); x++) {
+			result.add(array.get(x).getKey());
+		}
 		return result;
 	}
 
