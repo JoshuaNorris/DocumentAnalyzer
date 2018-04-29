@@ -14,7 +14,7 @@ public class TermFrequencyGenerator {
 		this.result = calculateResult();
 	}
 
-	public TreeMap<Double, String> getResult() {return result;};
+	public TreeMap<String, Double> getResult() {return result;};
 	
 	private TreeMap<String, Double> calculateResult() {
 		TreeMap<String, Double> tf = new TreeMap<String, Double>();
@@ -33,7 +33,7 @@ public class TermFrequencyGenerator {
 		return tf;
 	}
 	
-	private TreeMap<Double, String> averageWordcounts(TreeMap<String, Double> tf, ArrayList<String> noDuplicates) {
+	private TreeMap<String, Double> averageWordcounts(TreeMap<String, Double> tf, ArrayList<String> noDuplicates) {
 		for (int x = 0; x < noDuplicates.size(); x++) {
 			tf.put(noDuplicates.get(x), tf.get(noDuplicates.get(x)) / words.size());
 		}

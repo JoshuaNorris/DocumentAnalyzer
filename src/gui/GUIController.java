@@ -143,12 +143,11 @@ public class GUIController {
 		setViewToSummary(title);
 	}
 	
-	//TODO ask if this is worth it
 	public void setViewToSummary(String name) {
 		try {
 			view.setText(db.getSummaryOf(name));
 		} catch (SQLException e) {
-			//TODO 
+			error = new BadNews("We could not load the summary."); 
 			e.printStackTrace();
 		}
 	}
@@ -158,7 +157,7 @@ public class GUIController {
 		try {
 			view.setText(db.getFullTextOf(title));
 		} catch (SQLException e) {
-			//TODO 
+			error = new BadNews("We could not load the full text."); 
 			e.printStackTrace();
 		}
 	}
