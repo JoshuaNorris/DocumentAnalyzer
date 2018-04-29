@@ -13,31 +13,43 @@ import javafx.util.Pair;
 public class DocumentContainer {
 
 	private String doc;
+	private ArrayList<String> sentences;
+	private ArrayList<ArrayList<String>> sentencesWithWords;
+	private ArrayList<String> words;
+	private ArrayList<Pair<String, Double>> termFreq;
 	
 	
 	public DocumentContainer (String doc) {
 		this.doc = doc;
+		this.sentences = makeSentences();
+		this.sentencesWithWords = makeSentencesWithWords();
+		this.words = makeWords();
+		this.termFreq = makeTermFrequency();
 	}
 	
 	public String getText() {return doc;}
+	public ArrayList<String> getWords() {return words;}
+	public ArrayList<String> getSentences() {return sentences;}
+	public ArrayList<ArrayList<String>> getSentencesWithWords() {return sentencesWithWords;}
+	public ArrayList<Pair<String, Double>> getTermFrequency() {return termFreq;}
 	
-	public ArrayList<String> getWords() {
+	private ArrayList<String> makeWords() {
 		WordGenerator words = new WordGenerator(doc);
 		return words.run();
 	}
 	
-	public ArrayList<Pair<String, Double>> getTermFrequency() {
-		TermFrequencyGenerator tf = new TermFrequencyGenerator(getWords());
+	private ArrayList<Pair<String, Double>> makeTermFrequency() {
+		TermFrequencyGenerator tf = new TermFrequencyGenerator(words);
 		return tf.getResult();
 	}
 	
-	public ArrayList<String> getSentences() {
+	private ArrayList<String> makeSentences() {
 		SentenceGenerator sentences = new SentenceGenerator(doc);
 		return sentences.run();
 	}
 	
-	public ArrayList<ArrayList<String>> getSentencesWithWords() {
-		SentenceandWordGenerator sentencesAndWords = new SentenceandWordGenerator(getSentences());
+	private ArrayList<ArrayList<String>> makeSentencesWithWords() {
+		SentenceandWordGenerator sentencesAndWords = new SentenceandWordGenerator(sentences);
 		return sentencesAndWords.run();
 	}
 	
