@@ -13,9 +13,10 @@
                <children>
                   <Button layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#pressLoadFileButton" text="Add File" />
                   <Button fx:id="search" layoutX="664.0" layoutY="14.0" mnemonicParsing="false" text="Search" />
-                  <Button fx:id="back" layoutX="664.0" layoutY="385.0" mnemonicParsing="false" text="Back" />
+                  <Button fx:id="back" layoutX="670.0" layoutY="103.0" mnemonicParsing="false" onAction="#populateArticlesList" text="Back" />
                   <ListView fx:id="articlesList" layoutX="90.0" layoutY="61.0" prefHeight="315.0" prefWidth="569.0" />
                   <TextField fx:id="searchBar" layoutX="90.0" layoutY="14.0" prefHeight="31.0" prefWidth="568.0" promptText="Search: Title, keyword, phrase" />
+                  <Button layoutX="666.0" layoutY="61.0" mnemonicParsing="false" text="Delete" />
                </children></AnchorPane>
       </content>
     </Tab>

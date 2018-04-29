@@ -8,6 +8,7 @@ import java.util.Scanner;
 import javax.swing.JFileChooser;
 
 import Database.Database;
+import Searcher.TitleSearcher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -24,28 +25,28 @@ import javafx.scene.input.MouseEvent;
 //TODO implement delete file button using deleteFile(title) from database
 public class GUIController {
 	@FXML
-	Button search, back, viewSummary, viewFull;
-	
+	Button search, back, viewSummary, viewFull,delete;
+
 	@FXML
 	TextField searchBar;
-	
+
 	@FXML
 	ListView<String> articlesList;
-	
+
 	@FXML
 	TextArea view;
-	
+
 	@FXML
 	Label title, keywords;
-	
+
 	@FXML
 	Tab articlesTab;
-	
+
 	@FXML
 	TabPane tabHolder;
-	
+
 	static BadNews error;
-	
+
 	public static Database db;
 	static {
 		try {
@@ -55,15 +56,15 @@ public class GUIController {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	public void initialize() {
 		articlesTab.setDisable(true);
 		view.setEditable(false);
 		setUpListView();
 	}
 
-	
+
 
 	private void setUpListView() {
 		populateArticlesList();
@@ -82,7 +83,7 @@ public class GUIController {
 		});
 	}
 
-	public void pressLoadFileButton() {
+	public void pressLoadFileButton() throws SQLException {
 		//Oracle documentation
 		try {
 		String fileExtension = ".txt";
@@ -90,20 +91,38 @@ public class GUIController {
 		int choice = chooser.showOpenDialog(null);
 		File chosenFile = chooser.getSelectedFile();
 		if (chosenFile == null) {return;}
-		if (!acceptFile(chosenFile)) {									
+		if (!acceptFile(chosenFile)) {
 			pressLoadFileButton();
 		}
 		String filename = chosenFile.getName();
-		Scanner s = new Scanner(chosenFile);		
+		Scanner s = new Scanner(chosenFile);
 		String wholeFile = s.useDelimiter("\\A").next();
-		putFileinDatabase(filename.substring(0, filename.length() - fileExtension.length()), wholeFile);
+		String m = filename.substring(0, filename.length() - fileExtension.length());
+		if (db.documentExists(m)){
+			dubCheck(m + '1',1);
+		}
+		putFileinDatabase(m, wholeFile);
 		s.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		populateArticlesList();
 	}
-	
+	private String dubCheck(String file,Integer n) throws SQLException{
+		try{
+			if (db.documentExists(file)){
+				Integer m = n - 1;
+				file = file.substring(0,file.length() - m.toString().length() - 1);
+				Integer k = n + 1;
+				dubCheck(file + k.toString(), k);
+			}
+			return file;
+		} catch (SQLException e) {
+			error = new BadNews ("We could not put the file into your database.");
+			e.printStackTrace();
+		}
+		return "";
+	}
 	private void putFileinDatabase(String name, String fullText) {
 		try {
 			db.insertDocument(name, fullText);
@@ -120,7 +139,7 @@ public class GUIController {
 	    	return true;
 	    } return false;
 	}
-	
+
 	public void populateArticlesList() {
 		try {
 			articlesList.setItems(db.getAllArticles());
@@ -129,7 +148,7 @@ public class GUIController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void loadArticleViewer(String filename) {
 		articlesTab.setText(filename);
 		articlesTab.setDisable(false);
@@ -137,29 +156,40 @@ public class GUIController {
 		title.setText(filename);
 		setViewToSummary(filename);
 	}
-	
+
 	public void pressSeeSummary() {
 		String title = articlesTab.getText();
 		setViewToSummary(title);
 	}
-	
+
 	//TODO ask if this is worth it
 	public void setViewToSummary(String name) {
 		try {
 			view.setText(db.getSummaryOf(name));
 		} catch (SQLException e) {
-			//TODO 
+			//TODO
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void setViewToFull() {
 		String title = articlesTab.getText();
 		try {
 			view.setText(db.getFullTextOf(title));
 		} catch (SQLException e) {
-			//TODO 
+			//TODO
 			e.printStackTrace();
+		}
+	}
+	public void searchKey(){
+		TitleSearcher searchTitles = new TitleSearcher(searchBar.getText(),articlesList.getItems());
+		ObservableList<String> results = searchTitles.getSearchResults();
+		articlesList.setItems(results);
+	}
+	public void delButt(){
+		Integer item = articlesList.getSelectionModel().getSelectedIndex();
+		if (item != -1){
+			articlesList.getItems().remove(item);
 		}
 	}
 }
