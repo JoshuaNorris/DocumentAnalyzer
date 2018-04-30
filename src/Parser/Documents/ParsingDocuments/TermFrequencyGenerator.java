@@ -56,7 +56,6 @@ public class TermFrequencyGenerator {
 		return tf;
 	}
 	
-	private TreeMap<String, Double> averageWordcounts(TreeMap<String, Double> tf, ArrayList<String> noDuplicates) {}
 
 	private HashMap<String, Double> averageWordcounts(HashMap<String, Double> tf, ArrayList<String> noDuplicates) {
 		for (int x = 0; x < noDuplicates.size(); x++) {

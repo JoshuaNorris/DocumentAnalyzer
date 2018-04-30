@@ -18,9 +18,24 @@ public class DocumentSectioner {
 
 	private ArrayList<String> section(DocumentContainer text) {
 		ArrayList<String> finalSections = new ArrayList<String>();
-		finalSections.add(e);
+		int lowerSentence = 0;
+		int upperSentence = getSentenceIndexByPercent(text, 1, lowerSentence); //arbitrary 1% chosen to start the sectioning process
+		finalSections = sectionOut(text.getText(), lowerSentence, upperSentence);
 		return finalSections;
 	}
+	
+	private int getSentenceIndexByPercent(DocumentContainer text, int lowerBound, int percent) {
+		int index = 0;
+		
+		return index;
+	}
+	
+	private ArrayList<String> sectionOut(String text, int lower, int upper) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	
 	
 
