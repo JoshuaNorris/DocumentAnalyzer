@@ -28,8 +28,11 @@ public class DocumentSectionerTest {
 		}		
 		
 		thisSectioner = new DocumentSectioner(dogsAndCats);
-		System.out.println(thisSectioner.getSectionedText());
+		System.out.println("HERE WE GO: ");
 
+		for (String each : thisSectioner.getSectionedText()) {
+			System.out.println(each);
+		}
 	}
 
 	@Test

@@ -13,6 +13,7 @@ public class DocumentSectioner {
 	private int highestWordWanted;
 	private int arbitraryPercent;
 	private ArrayList<String> sentences;
+	private int numSections;
 
 	public DocumentSectioner(String text) {
 		this.document = new DocumentContainer(text);
@@ -25,6 +26,10 @@ public class DocumentSectioner {
 		 */
 		arbitraryPercent = 10;
 		this.sentences = document.getSentences();
+		System.out.println(sentences.size());
+		sectionedText = new ArrayList<String>();
+		sectionedText.add("");
+		numSections = 0;
 		section();
 	}
 
@@ -45,9 +50,6 @@ public class DocumentSectioner {
 		int upperSentence = getSentenceIndexByPercent(lowerSentence, arbitraryPercent);
 		Optional<Pair<String, Double>> highScorer = Optional.empty();
 		sectionOut(lowerSentence, upperSentence, highScorer);
-		for (String s : sectionedText) {
-			System.out.println(s);
-		}
 	}
 
 	public int getSentenceIndexByPercent(int lowerBound, int percent) {
@@ -70,6 +72,8 @@ public class DocumentSectioner {
 	}
 
 	private void sectionOut(int lower, int upper, Optional<Pair<String, Double>> prevHighScore) {
+		System.out.println("range: " + lower + "-" + upper);
+
 		ArrayList<String> wordsList = buildWordsListForTermFreq(lower, upper);
 		Pair<String, Double> topWordStats = getDesiredScore(wordsList);
 		boolean wordChanged = mostImportantWordIsDifferentWord(topWordStats, prevHighScore);
@@ -77,39 +81,49 @@ public class DocumentSectioner {
 		int nextUpperBound = getSentenceIndexByPercent(nextLowerBound, arbitraryPercent);
 		Optional<Pair<String, Double>> newHighScore = Optional.of(topWordStats);
 
+		
 		if (!prevHighScore.isPresent()) {
+			addToThisSection(lower, upper);
 			sectionOut(nextLowerBound, nextUpperBound, newHighScore);
+			return;
 		} else if (wordChanged) {
-			addThisSection(lower, upper);
-			if (upper == sentences.size() - 1) {
-				addThisSection(lower, upper);
-				return;
-			}
-			sectionOut(nextLowerBound, nextUpperBound, newHighScore);
+			numSections++;
+			sectionedText.add("");
 		}
-
+		if (upper == sentences.size() - 1) {
+			System.out.println("upper is equal to sentence size - 1");
+			addToThisSection(lower, upper);
+			return;
+		}
+		addToThisSection(lower, upper);
+		sectionOut(nextLowerBound, nextUpperBound, newHighScore);
 	}
 
-	private void addThisSection(int lowerBound, int upperBound) {
-		ArrayList<String> tempSentences = sentences;
-		String section = "Section: ";
+	private void addToThisSection(int lowerBound, int upperBound) {
+		String section = "";
+		System.out.println("numSections: " + numSections);
 		for (int i = lowerBound; i <= upperBound; i++) {
-			System.out.println(section);
-			section += tempSentences.get(i);
+			section += sentences.get(i);
 		}
-		sectionedText.add(section);
+		String text = sectionedText.get(numSections);
+		text += section;
+		System.out.println("text" + text);
+		sectionedText.set(numSections, text);
 	}
 
 	private boolean mostImportantWordIsDifferentWord(Pair<String, Double> topWordStats,
 			Optional<Pair<String, Double>> prevHighScore) {
 		boolean bool = false;
 		if (prevHighScore.isPresent()) {
-			if (!prevHighScore.get().getKey().equals(topWordStats.getKey())) {
+			String firstHighWord = prevHighScore.get().getKey();
+			String secondHighWord = topWordStats.getKey();
+			System.out.println(firstHighWord);
+			System.out.println(secondHighWord);
+
+			if (!firstHighWord.equals(secondHighWord) & !firstHighWord.contains(secondHighWord) & !secondHighWord.contains(firstHighWord)) {
 				bool = true;
 			}
-			System.out.println("Prev: " + prevHighScore.get().getKey());
-			System.out.println("Current: " + topWordStats.getKey());
-
+			
 		}
 		return bool;
 	}
@@ -122,6 +136,7 @@ public class DocumentSectioner {
 
 	private ArrayList<String> buildWordsListForTermFreq(int lowerBound, int upperBound) {
 		ArrayList<String> builder = new ArrayList<String>();
+
 		for (int i = lowerBound; i <= upperBound; i++) {
 			builder.addAll(document.getSentencesWithWords().get(i));
 		}
