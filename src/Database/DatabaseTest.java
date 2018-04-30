@@ -70,15 +70,6 @@ public class DatabaseTest {
 		assertTrue(articles.contains("Keywordtest2"));
 	}
 	
-	@Test
-	public void insertSearchAttempt() throws SQLException {
-		String title = "title";
-		String query = "query";
-		GUIController.db.insertSearchAttempt(title, query);
-		assertTrue(GUIController.db.getSearchQuery().equals("query"));
-		assertTrue(GUIController.db.getSearchTitle().equals("title"));
-	}
-	
 	@After
 	public void cleanSlate() throws SQLException {
 		GUIController.db.deleteFile("Summarytest");

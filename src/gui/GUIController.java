@@ -24,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -32,9 +33,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 //TODO implement delete file button using deleteFile(title) from database
 public class GUIController {
@@ -197,7 +200,6 @@ public class GUIController {
 		setViewToSummary(title);
 	}
 
-	// TODO ask if this is worth it
 	public void setViewToSummary(String name) {
 		try {
 			view.setText(db.getSummaryOf(name));
@@ -206,7 +208,6 @@ public class GUIController {
 			setRelatedDocuments(name, words);
 		} catch (SQLException e) {
 			error = new BadNews("We could not load the summary.");
-			// TODO
 			e.printStackTrace();
 		}
 	}
@@ -227,7 +228,6 @@ public class GUIController {
 			view.setText(db.getFullTextOf(title));
 		} catch (SQLException e) {
 			error = new BadNews("We could not load the full text.");
-			// TODO
 			e.printStackTrace();
 		}
 	}
@@ -248,24 +248,36 @@ public class GUIController {
 		labels.getChildren().setAll(query, popupTitle);
 
 		HBox results = new HBox();
-		ListView<String> searchResultsListView = new ListView<String>();
-		searchResultsListView.setPrefSize(1000, 500);
+		TextArea searchResultsTextArea = new TextArea();
+		searchResultsTextArea.setPrefSize(800, 500);
+		searchResultsTextArea.setWrapText(true);
 		ListView<String> relatedWordsListView = new ListView<String>();
 		relatedWordsListView.setLayoutX(75);
-		results.getChildren().setAll(relatedWordsListView, searchResultsListView);
+		results.getChildren().setAll(relatedWordsListView, searchResultsTextArea);
 
 		VBox layout = new VBox();
 		layout.getChildren().setAll(labels, results);
 
-		Scene popupscene = new Scene(layout, 1200, 600);
+		Scene popupscene = new Scene(layout, 1000, 600);
 		popup.setScene(popupscene);
 		popup.show();
-		
-		
+
 		Searcher search = new Searcher(secondSearchBar.getText(), db.getFullTextOf(title.getText()), 10);
 		ObservableList<String> searchResults = search.getSearchResults();
-		relatedWordsListView.setItems(search.getRelatedWords(4));
-		searchResultsListView.setItems(searchResults);
+		ObservableList<String> relatedWordsList = search.getRelatedWords(4);
+		relatedWordsList.add(0, "Related Words: ");
+		relatedWordsListView.setItems(relatedWordsList);
+		String searchResultsText = listToText(searchResults);
+		searchResultsTextArea.setText(searchResultsText);
+	}
+
+
+	private String listToText(ObservableList<String> searchResults) {
+		String result = "Search Results: \n";
+		for (int x = 0; x < searchResults.size(); x++) {
+			result += (x + 1) + ": " + searchResults.get(x) + "\n";
+		}
+		return result;
 	}
 
 	public void delete(ActionEvent event) {
