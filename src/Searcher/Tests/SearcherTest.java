@@ -30,6 +30,11 @@ public class SearcherTest {
 		Searcher search2 = new Searcher(query2, doc1, 10);
 		assertTrue(search2.getSearchResults().get(0).equals(" I am writing this program in an imperative language called java."));
 		
+		String query3 = "called java";
+		Searcher search3 = new Searcher(query3, doc1, 10);
+		//System.out.println(search3.getSearchResults());
+		assertTrue(search3.getSearchResults().get(0).equals(" I am writing this program in an imperative language called java."));
+		
 	}
 
 }

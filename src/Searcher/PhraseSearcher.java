@@ -1,7 +1,9 @@
 package Searcher;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class PhraseSearcher {
@@ -24,21 +26,54 @@ public class PhraseSearcher {
 	public ObservableList<String> getResults() {
 		ArrayList< ObservableList <String>> wordByWordResults = populateWordByWordResults(); 
 		ArrayList< SentenceCamparison> sentenceRanks = populateSentenceRanks(wordByWordResults);
+		//System.out.println("sentenceRanks " + sentenceRanks);
+		TreeMap<Integer, String> orderedMap = transferToMap(sentenceRanks);
+		//System.out.println("orderedMap " + orderedMap);
+		return returnOrderedList(orderedMap, numOfResults);
 	}
 	
 	
 	
+	private ObservableList<String> returnOrderedList(TreeMap<Integer, String> orderedMap, int numOfResults) {
+		ObservableList<String> result = FXCollections.observableArrayList();
+		
+		if (numOfResults > orderedMap.size()) {
+			numOfResults = orderedMap.size();
+		}
+		
+		for (int x = 0; x < numOfResults; x++) {
+			result.add(orderedMap.lastEntry().getValue());
+			orderedMap.remove(orderedMap.lastEntry().getKey(), orderedMap.lastEntry().getValue());
+		}
+		return result;
+	}
+
+	private TreeMap<Integer, String> transferToMap(ArrayList<SentenceCamparison> sentenceRanks) {
+		TreeMap<Integer, String> result = new TreeMap<Integer, String>();
+		
+		for (int x = 0; x < sentenceRanks.size(); x++) {
+			Integer key = sentenceRanks.get(x).getScore();
+			String sentence = sentenceRanks.get(x).getSentence();
+			
+			result.put(key, sentence);
+		}
+		return result;
+	}
+
 	private ArrayList<SentenceCamparison> populateSentenceRanks(ArrayList<ObservableList<String>> rankings) {
 		ArrayList< SentenceCamparison> result = new ArrayList< SentenceCamparison>();
 		
 		ObservableList<String> comparisonList = rankings.get(0);
-		rankings.remove(0);
+		
+		System.out.println(rankings);
 		
 		for (int x = 0; x < comparisonList.size(); x++) {
 			String currentSentence = comparisonList.get(x);
 			ArrayList<Integer> ranks = new ArrayList<Integer>();
 			for (int y = 0; y < rankings.size(); y++) {
 				ranks.add(rankings.get(y).indexOf(currentSentence));
+//				System.out.println(currentSentence);
+//				System.out.println(rankings.get(y).indexOf(currentSentence));
 			}
 			result.add(new SentenceCamparison(currentSentence, ranks, rankings.size()));
 		}
@@ -52,6 +87,8 @@ public class PhraseSearcher {
 			Searcher oneWordSearch = new Searcher (query[x], document, inarowWeight, scoreWeight, Integer.MAX_VALUE);
 			wordByWordResults.add(oneWordSearch.getSearchResults());
 		}
+		System.out.println(wordByWordResults.get(0).size());
+		System.out.println(wordByWordResults.get(1).size());
 		return wordByWordResults;
 	}
 
