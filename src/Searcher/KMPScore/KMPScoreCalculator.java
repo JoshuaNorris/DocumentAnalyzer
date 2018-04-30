@@ -27,7 +27,6 @@ public class KMPScoreCalculator {
 		char thisChar = document.charAt(0);
 		String currentSentence = "";
 		double currentScore = 0.0;
-		
 		for (int x = 0; x < document.length(); x++) {
 			thisChar = document.charAt(x);
 			currentSentence += thisChar;
@@ -41,6 +40,8 @@ public class KMPScoreCalculator {
 				currentScore = 0.0;
 			} else if (Character.toLowerCase(thisChar) == firstLetter) {
 				currentScore += ifFirstLettterGetScore(x, firstLetter, inarowWeight, scoreWeight);
+			} else {
+				
 			}
 			
 		}

@@ -38,7 +38,7 @@ public class ScoreSummarizer {
 
 	}
 
-	public void topReturner(String title) throws SQLException {
+	public String topReturner(String title) throws SQLException {
 		int length = articleDatabase.getFullTextOf(title).split(" ").length;
 		int numSentences = 0;
 		if (length > 1000) {
@@ -51,7 +51,7 @@ public class ScoreSummarizer {
 			numSentences = 3;
 		}
 
-		articleDatabase.getTopSentencesOf(title, numSentences);
+		return articleDatabase.getTopSentencesOf(title, numSentences);
 
 	}
 
