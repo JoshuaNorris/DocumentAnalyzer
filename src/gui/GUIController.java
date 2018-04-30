@@ -8,6 +8,7 @@ import java.util.Scanner;
 import javax.swing.JFileChooser;
 
 import Database.Database;
+import Searcher.Searcher;
 import Searcher.TitleSearcher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,10 +29,10 @@ import javafx.stage.Stage;
 //TODO implement delete file button using deleteFile(title) from database
 public class GUIController {
 	@FXML
-	Button search, back, viewSummary, viewFull,delete;
+	Button search,search2, back, viewSummary, viewFull,delete;
 
 	@FXML
-	TextField searchBar;
+	TextField searchBar,secondSearchBar,keylist;
 
 	@FXML
 	ListView<String> articlesList;
@@ -65,6 +66,7 @@ public class GUIController {
 		articlesTab.setDisable(true);
 		view.setEditable(false);
 		setUpListView();
+		view.setWrapText(true);
 	}
 
 
@@ -80,6 +82,7 @@ public class GUIController {
 		        	if (!articlesList.getItems().isEmpty()){
 		        		String currentItemSelected = articlesList.getSelectionModel().getSelectedItem();
 		        		loadArticleViewer(currentItemSelected);
+
 						}
 		        }
 		    }
@@ -211,6 +214,20 @@ public class GUIController {
 		ObservableList<String> results = searchTitles.getSearchResults();
 		articlesList.setItems(results);
 	}
+	public void search2() throws SQLException{
+		try{
+		Searcher search = new Searcher (secondSearchBar.getText(),db.getFullTextOf(title.getText()), 10);
+		ObservableList<String> results = search.getSearchResults();
+		String output = "";
+		for (String item : results){
+			output += item + '\n';
+		}
+		view.setText(output);
+		}catch (SQLException e) {
+			error = new BadNews("Search bad.");
+			e.printStackTrace();
+		}
+	}
 	public void delbutt(ActionEvent event) {
 		delete.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -227,5 +244,6 @@ public class GUIController {
 					}
 			}
 		});
+
 	}
 }

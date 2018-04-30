@@ -26,15 +26,15 @@ public class Searcher {
 		this.scoreWeight = scoreWeight;
 		this.searchResults = calculateSearchResults(numOfResults);
 	}
-	
+
 	public Searcher (String query, String document, int numOfResults) {
 		this(query, document, 1.0, 1.0, numOfResults);
 	}
-	
+
 	public Searcher (String query, ObservableList<String> titles, int numOfResults) {
 		this(query, titlesToDocument(titles), 1.0, 1.0, numOfResults);
 	}
-	
+
 	private static String titlesToDocument(ObservableList<String> titles) {
 		String result = "";
 		for (int x = 0; x < titles.size(); x++) {
@@ -43,7 +43,7 @@ public class Searcher {
 		}
 		return result;
 	}
-	
+
 	public ObservableList<String> getSearchResults () {return searchResults;};
 
 	private ObservableList<String> calculateSearchResults(int numOfResults) {
@@ -57,12 +57,12 @@ public class Searcher {
 		if (numOfResults > searchResults.size()) {
 			numOfResults = searchResults.size();
 		}
-		
+
 		for (int x = 0; x < numOfResults; x++) {
 			result.add(searchResults.lastEntry().getValue());
 			searchResults.remove(searchResults.lastEntry().getKey(), searchResults.lastEntry().getValue());
 		}
-		
+
 		return result;
 	}
 
@@ -78,7 +78,7 @@ public class Searcher {
 		ArrayList<Pair<String, Double>> searchesWithScores = searches.getTermFrequency();
 		return arrayToObservableList(searchesWithScores);
 	}
-	
+
 	private String changeToString(ObservableList<String> searchResults) {
 		String result = "";
 		for (int x = 0; x < searchResults.size(); x++) {
@@ -97,7 +97,7 @@ public class Searcher {
 	}
 
 	/*
-	 * I got the getHighestVote function from: 
+	 * I got the getHighestVote function from:
 	 * https://bukkit.org/threads/get-string-with-the-highest-integer-from-
 	 * hashmap.309098/
 	 */
