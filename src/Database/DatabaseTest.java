@@ -49,6 +49,7 @@ public class DatabaseTest {
 	@Test
 	public void documentExists() throws SQLException {
 		assertTrue(GUIController.db.documentExists("document"));
+		assertFalse(GUIController.db.documentExists("not here"));
 	}
 	
 	@Test
