@@ -16,12 +16,12 @@ public class DocumentSectioner {
 
 	public DocumentSectioner(String text) {
 		this.document = new DocumentContainer(text);
-		highestWordWanted = 0; 
+		highestWordWanted = 0;
 		/*
-		 * on first iteration, functions want the highest possible scoring word
-		 * it is possible that one word is the most important for the entire document
-		 * So we might have to do this more than once with second most important words
-		 * not yet implemented
+		 * on first iteration, functions want the highest possible scoring word it is
+		 * possible that one word is the most important for the entire document So we
+		 * might have to do this more than once with second most important words not yet
+		 * implemented
 		 */
 		arbitraryPercent = 10;
 		this.sentences = document.getSentences();
@@ -43,7 +43,7 @@ public class DocumentSectioner {
 	private void section() {
 		int lowerSentence = 0;
 		int upperSentence = getSentenceIndexByPercent(lowerSentence, arbitraryPercent);
-		Optional<Pair<String, Double>> highScorer = null;
+		Optional<Pair<String, Double>> highScorer = Optional.empty();
 		sectionOut(lowerSentence, upperSentence, highScorer);
 		for (String s : sectionedText) {
 			System.out.println(s);
@@ -55,7 +55,7 @@ public class DocumentSectioner {
 		int documentLength = sentences.size();
 		double percentConverter = percent / 100.0;
 		double temp = documentLength * percentConverter;
-		index = (int) (lowerBound + Math.floor(temp));
+		index = (int) (lowerBound + Math.ceil(temp));
 		index = checkTopIndex(index);
 		return index;
 	}
@@ -72,7 +72,7 @@ public class DocumentSectioner {
 	private void sectionOut(int lower, int upper, Optional<Pair<String, Double>> prevHighScore) {
 		ArrayList<String> wordsList = buildWordsListForTermFreq(lower, upper);
 		Pair<String, Double> topWordStats = getDesiredScore(wordsList);
-		boolean wordChanged = mostImportantWordIsDifferentWord(topWordStats, prevHighScore.get());
+		boolean wordChanged = mostImportantWordIsDifferentWord(topWordStats, prevHighScore);
 		int nextLowerBound = upper + 1;
 		int nextUpperBound = getSentenceIndexByPercent(nextLowerBound, arbitraryPercent);
 		Optional<Pair<String, Double>> newHighScore = Optional.of(topWordStats);
@@ -81,7 +81,7 @@ public class DocumentSectioner {
 			sectionOut(nextLowerBound, nextUpperBound, newHighScore);
 		} else if (wordChanged) {
 			addThisSection(lower);
-			if(upper == sentences.size() - 1) {
+			if (upper == sentences.size() - 1) {
 				addThisSection(upper);
 				return;
 			}
@@ -92,18 +92,21 @@ public class DocumentSectioner {
 
 	private void addThisSection(int lowerBound) {
 		ArrayList<String> tempSentences = sentences;
-		String section = "";
+		String section = "Section: ";
 		for (int i = 0; i <= lowerBound; i++) {
+			System.out.println(section);
 			section += tempSentences.get(i);
 		}
 		sectionedText.add(section);
 	}
 
 	private boolean mostImportantWordIsDifferentWord(Pair<String, Double> topWordStats,
-			Pair<String, Double> compareToPrevStats) {
+			Optional<Pair<String, Double>> prevHighScore) {
 		boolean bool = false;
-		if (!compareToPrevStats.getKey().equals(topWordStats.getKey())) {
-			bool = true;
+		if (prevHighScore.isPresent()) {
+			if (!prevHighScore.get().getKey().equals(topWordStats.getKey())) {
+				bool = true;
+			}
 		}
 		return bool;
 	}
