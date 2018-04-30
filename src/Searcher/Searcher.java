@@ -79,7 +79,8 @@ public class Searcher {
 
 	private TreeMap<Double, String> runSearch() {
 		KMPScoreCalculator search = new KMPScoreCalculator(query, document, inarowWeight, scoreWeight);
-		return search.getResult();
+		TreeMap<Double, String> result = search.getResult();
+		return result;
 	}
 
 	public ObservableList<String> getRelatedWords(int numOfResultsConsidered) {

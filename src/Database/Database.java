@@ -91,6 +91,7 @@ public class Database {
 	public void insertKeyword(String title, String word) throws SQLException {
 		System.out.println("ADDED " + word);
 		String safeTitle = makeSafe(title);
+		System.out.println("insert SAFETITLE " + safeTitle);
 		String safeKey = makeSafe(word);
 		stat.executeUpdate("INSERT INTO document_keywords (title, keyword) VALUES ('" + safeTitle + "', '"
 				+ safeKey + "');");
@@ -99,7 +100,7 @@ public class Database {
 	public ObservableList<String> getKeywords(String title) throws SQLException {
 		ObservableList<String> keywords = FXCollections.observableArrayList();
 		String safeTitle = makeSafe(title);
-		System.out.println("SAFETITLE " + safeTitle);
+		System.out.println("get SAFETITLE " + safeTitle);
 		ResultSet info = stat.executeQuery("SELECT keyword FROM document_keywords WHERE title='" + safeTitle + "'");
 		while (info.next()) {
 			keywords.add(info.getString("keyword"));
