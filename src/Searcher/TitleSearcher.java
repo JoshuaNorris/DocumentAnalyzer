@@ -8,13 +8,14 @@ public class TitleSearcher {
 	private String query;
 	private ObservableList<String> titles = FXCollections.observableArrayList();
 	private ObservableList<String> searchResults = FXCollections.observableArrayList();
-	
+
 	public TitleSearcher(String query, ObservableList<String> titles) {
+		System.out.println(titles);
 		this.query = query;
 		this.titles = titles;
 		this.searchResults = calculateSearchResults();
 	}
-	
+
 	public ObservableList<String> getSearchResults() {return searchResults;};
 
 	private ObservableList<String> calculateSearchResults() {
@@ -22,5 +23,5 @@ public class TitleSearcher {
 		ObservableList<String> result = searcher.getSearchResults();
 		return result;
 	}
-	
+
 }

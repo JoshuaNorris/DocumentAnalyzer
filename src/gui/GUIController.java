@@ -8,7 +8,9 @@ import java.util.Scanner;
 import javax.swing.JFileChooser;
 
 import Database.Database;
+import Searcher.Searcher;
 import Searcher.TitleSearcher;
+import Summarizer.KeywordLocator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,10 +30,10 @@ import javafx.stage.Stage;
 //TODO implement delete file button using deleteFile(title) from database
 public class GUIController {
 	@FXML
-	Button search, back, viewSummary, viewFull,delete;
+	Button search,search2, back, viewSummary, viewFull,delete;
 
 	@FXML
-	TextField searchBar;
+	TextField searchBar,secondSearchBar,keylist;
 
 	@FXML
 	ListView<String> articlesList;
@@ -65,6 +67,7 @@ public class GUIController {
 		articlesTab.setDisable(true);
 		view.setEditable(false);
 		setUpListView();
+		view.setWrapText(true);
 	}
 
 
@@ -80,6 +83,13 @@ public class GUIController {
 		        	if (!articlesList.getItems().isEmpty()){
 		        		String currentItemSelected = articlesList.getSelectionModel().getSelectedItem();
 		        		loadArticleViewer(currentItemSelected);
+		        		try {
+		        			ObservableList<String> words = db.getKeywords(currentItemSelected);
+							keylist.setText(words.get(0));
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+
 						}
 		        }
 		    }
@@ -101,6 +111,9 @@ public class GUIController {
 		String wholeFile = Load(chosenFile);
 		String m = filename.substring(0, filename.length() - fileExtension.length());
 		putFileinDatabase(dubCheck(m), wholeFile);
+		System.out.println("IN KEYWORDLOCATOR");
+		KeywordLocator keywordlocator = new KeywordLocator (10,wholeFile, m);
+		keywordlocator.insertRelatedWordsInDatabase();
 		populateArticlesList();
 		}catch (SQLException e) {
 			error = new BadNews ("We could not put the file into your database.");
@@ -211,6 +224,21 @@ public class GUIController {
 		ObservableList<String> results = searchTitles.getSearchResults();
 		articlesList.setItems(results);
 	}
+	public void search2() throws SQLException{
+		try{
+		Searcher search = new Searcher (secondSearchBar.getText(),db.getFullTextOf(title.getText()), 10);
+		ObservableList<String> results = search.getSearchResults();
+		//keylist.setText(search.getRelatedWords(10).toString());
+		String output = "";
+		for (String item : results){
+			output += item + '\n';
+		}
+		view.setText(output);
+		}catch (SQLException e) {
+			error = new BadNews("Search bad.");
+			e.printStackTrace();
+		}
+	}
 	public void delbutt(ActionEvent event) {
 		delete.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -227,5 +255,6 @@ public class GUIController {
 					}
 			}
 		});
+
 	}
 }

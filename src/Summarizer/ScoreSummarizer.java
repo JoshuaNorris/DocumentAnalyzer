@@ -1,72 +1,58 @@
 package Summarizer;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
+import Database.Database;
 
-//import edu.stanford.nlp.simple.Document;
-//import edu.stanford.nlp.simple.Sentence;
-//import edu.stanford.nlp.simple.Token;
-/**
+import edu.stanford.nlp.simple.Document;
+import edu.stanford.nlp.simple.Sentence;
+import edu.stanford.nlp.simple.Token;
+
 public class ScoreSummarizer {
 
-	private ArrayList<Sentence> allSentences = new ArrayList<Sentence>();
-	private ArrayList<Integer> scores = new ArrayList<Integer>();
-	private ArrayList<String> ignoreWords = new ArrayList<String>();
-	private ArrayList<Sentence> finalSentences = new ArrayList<Sentence>();
+	private Database articleDatabase;
+	private StopWordMaker stopper;
 
-	public ScoreSummarizer() {
+	public ScoreSummarizer(StopWordMaker stopper, Database articleDatabase) {
+		this.articleDatabase = articleDatabase;
+		this.stopper = stopper;
 	}
 
-	private LinkedHashMap<Sentence, Double> pileOfSentences = new LinkedHashMap<Sentence, Double>();
-	private ArrayList<String> ignoreWords;
-	private ArrayList<Sentence> finalSentences;
-
-	public void stopMaker() throws IOException {
-		File file = new File("C:\\Users\\colby\\Documents\\CSCI 270 Computational Humanities\\stop-words-list.txt");
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-		while (reader.readLine() != null) {
-			ignoreWords.add(reader.readLine());
-		}
-
-	}
-
-	public void ScoreSentences(String text) {
-		int score = 0;
+	public void scoreSentences(String text, String title) throws SQLException {
+		Double score = 0.0;
+		int count = 0;
 		Document userText = new Document(text);
 		List<Sentence> sentences = userText.sentences();
 		for (Sentence potential : sentences) {
-			allSentences.add(potential);
 			for (Token word : potential.tokens()) {
 				String scoreWord = word.word();
-				if (!ignoreWords.contains(scoreWord)) {
+				if (!stopper.stopWords.contains(scoreWord)) {
 					score += 1;
 				}
 
 			}
-			scores.add(score);
-			score = 0;
+			articleDatabase.insertSummarySentence(title, potential.toString(), count, score);
+			score = 0.0;
+			count += 1;
 		}
 
 	}
 
-	public void topReturner() {
-		ArrayList<Integer> bestScoring = new ArrayList<Integer>();
-		bestScoring.addAll(scores);
-		bestScoring.sort(null);
-		System.out.println(allSentences);
-		System.out.println(scores);
-		System.out.println(bestScoring);
+	public void topReturner(String title) throws SQLException {
+		int length = articleDatabase.getFullTextOf(title).split(" ").length;
+		int numSentences = 0;
+		if (length > 1000) {
+			numSentences = 10;
+		} else if (length > 500) {
+			numSentences = 7;
+		} else if (length > 300) {
+			numSentences = 5;
+		} else {
+			numSentences = 3;
+		}
 
+		articleDatabase.getTopSentencesOf(title, numSentences);
 
 	}
-	//} 
 
-}*/
+}
