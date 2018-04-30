@@ -20,14 +20,15 @@ public class DocumentSectionerTest {
 //				+ "I am for testing purposes. Hear me roar. I hope my tests don't fail. That would be sad. That would make me sad.";
 //		thisSectioner = new DocumentSectioner(text);
 		
-		File file = new File(DocumentSectionerTest.class.getResource("Sectioner Test").toURI());
+		File file = new File(DocumentSectionerTest.class.getResource("SectionerTest.txt").toURI());
 		Scanner s = new Scanner(file);
 		String dogsAndCats = "";
 		while (s.hasNextLine()) {
 			dogsAndCats += s.nextLine();
-		}
-		System.out.println("File: " + dogsAndCats);
+		}		
 		
+		thisSectioner = new DocumentSectioner(dogsAndCats);
+		System.out.println(thisSectioner.getSectionedText());
 
 	}
 

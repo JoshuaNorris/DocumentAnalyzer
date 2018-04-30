@@ -80,9 +80,9 @@ public class DocumentSectioner {
 		if (!prevHighScore.isPresent()) {
 			sectionOut(nextLowerBound, nextUpperBound, newHighScore);
 		} else if (wordChanged) {
-			addThisSection(lower);
+			addThisSection(lower, upper);
 			if (upper == sentences.size() - 1) {
-				addThisSection(upper);
+				addThisSection(lower, upper);
 				return;
 			}
 			sectionOut(nextLowerBound, nextUpperBound, newHighScore);
@@ -90,10 +90,10 @@ public class DocumentSectioner {
 
 	}
 
-	private void addThisSection(int lowerBound) {
+	private void addThisSection(int lowerBound, int upperBound) {
 		ArrayList<String> tempSentences = sentences;
 		String section = "Section: ";
-		for (int i = 0; i <= lowerBound; i++) {
+		for (int i = lowerBound; i <= upperBound; i++) {
 			System.out.println(section);
 			section += tempSentences.get(i);
 		}
@@ -107,6 +107,9 @@ public class DocumentSectioner {
 			if (!prevHighScore.get().getKey().equals(topWordStats.getKey())) {
 				bool = true;
 			}
+			System.out.println("Prev: " + prevHighScore.get().getKey());
+			System.out.println("Current: " + topWordStats.getKey());
+
 		}
 		return bool;
 	}

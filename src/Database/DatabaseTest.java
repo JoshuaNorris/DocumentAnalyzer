@@ -23,7 +23,7 @@ public class DatabaseTest {
 		GUIController.db.insertSummarySentence("Summarytest", "I am most important", 4, 4.0);
 		GUIController.db.insertSummarySentence("Summarytest", "I am a little important", 5, 1.0); 
 		
-		GUIController.db.insertDocument("document", "This is the document text.");
+		GUIController.db.insertDocument("document", "This is the document text.", null);
 		
 		GUIController.db.insertKeyword("Keywordtest", "key1");
 		GUIController.db.insertKeyword("Keywordtest", "key2");
