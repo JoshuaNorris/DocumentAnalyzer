@@ -21,6 +21,7 @@ public class Database {
 		stat.executeUpdate(
 				"CREATE TABLE IF NOT EXISTS document_summary(title String, sentence String, numSentence INTEGER, score INTEGER);");
 		stat.executeUpdate("CREATE TABLE IF NOT EXISTS document_keywords(title String, keyword String);");
+		// stat.executeUpdate("CREATE TABLE IF NOT EXISTS search_attempt(title String, query String);");
 		// dropTables();
 	}
 
@@ -38,6 +39,28 @@ public class Database {
 		stat.executeUpdate("INSERT INTO document_summary (title, sentence, numSentence, score) VALUES ('" + safeTitle + "', '"
 				+ safeSentence + "', " + index + ", " + score + ");");
 	}
+	
+//	public void insertSearchAttempt(String title, String query) throws SQLException {
+//		String safeTitle = makeSafe(title);
+//		String safeQuery = makeSafe(query);
+//		stat.executeUpdate("INSERT INTO search_attempt (title, query) VALUES ('" + safeTitle + "', '"
+//				+ safeQuery + "');");
+//		
+//	}
+//	
+//	public String getSearchTitle() throws SQLException {
+//		ResultSet result = stat.executeQuery("SELECT * FROM search_attempt;");
+//		return result.getString(1);
+//	}
+//	
+//	public void removeSearchAttempt() throws SQLException {
+//		stat.executeUpdate("DELETE * FROM table_name;");
+//	}
+//	
+//	public String getSearchQuery() throws SQLException {
+//		ResultSet result = stat.executeQuery("SELECT * FROM search_attempt;");
+//		return result.getString(2);
+//	}
 
 
 
@@ -108,6 +131,26 @@ public class Database {
 		System.out.println("GOT KEYWORDS");
 		System.out.println(keywords);
 		return keywords;
+	}
+
+	public ObservableList<String> getRelatedDocuments(String name, ObservableList<String> keywords) throws SQLException {
+		ObservableList<String> result = FXCollections.observableArrayList();
+		for (int x = 0; x < keywords.size(); x++) {
+			result = addRelatedFiles(result, getTitlesWithKeyword(keywords.get(x)));
+		}
+		result.remove(name);
+		return result;
+	}
+	
+	private ObservableList<String> addRelatedFiles(ObservableList<String> result,
+			ObservableList<String> titles) {
+		for (int x = 0; x < titles.size(); x++) {
+			if (!result.contains(titles.get(x))) {
+				result.add(titles.get(x));
+			}
+		}
+		
+		return result;
 	}
 
 	public ObservableList<String> getTitlesWithKeyword(String keyword) throws SQLException {

@@ -20,7 +20,7 @@ considered as a flat structure. In fact it resembles a hemisphere comprising a l
 smaller curves, where the cerebrospinal fluid (CSF) fills the crevices. Both cerebral 
 cortex and CSF are electrically conductive. It is a well-known fact that the electrical 
 charges inside the closed surface will move freely inside the solid electrical conductor 
-until the excess charges gather on the surface of the conductor (Figure 1). These charges will create an electrical field surrounding the sphere as stated in Gauss’ Law [6, 7, 8]. 
+until the excess charges gather on the surface of the conductor (Figure 1). These charges will create an electrical field surrounding the sphere as stated in Gauss Law [6, 7, 8]. 
 Therefore, models that facilitate projection of one-dimensional EEG data over a three
 dimensional hemisphere are essential to understand the wiring principles of the brain. Brain activity stemming from the interaction of the neural populations recorded as waves 
 at different frequencies suggest that there may be a distinct communication level between 
@@ -37,8 +37,8 @@ connector role to establish communication channels (or paths) with other nodes o
 modules [9]. However, we believe the size, boundary, hierarchy and 
 assignments/responsibilities of neural communities are dynamic, in opposition to the 
 general concept of predetermined size of modules. Therefore, in spite of the general 
-convention of identifying the closely coupled neurons as “neural modules”, we prefer a 
-new term; “neural communities” because the word “community” not only symbolizes the 
+convention of identifying the closely coupled neurons as neural modules, we prefer a 
+new term; neural communities because the word community not only symbolizes the 
 dynamic relationships in a society but also emphasizes the hierarchical foundation of it. Brain waves operating at different frequencies are related to different functions of the brain 
 [10]. This has been a hot topic for physicians and researchers in the last several decades, 
 while the studies have often been limited by the capabilities of the EEG system. Therefore, 
@@ -70,8 +70,8 @@ dimensional (3D) fashion. Transformation-Normalization-Projection (PNT) used in
 COGSIP projects single-dimensional EEG data into three-dimensions after extracting the 
 amplitude and phase angle information using the Hilbert transformation. Consecutively, 
 the projected EEG data from each channel is correlated, and the identical degree of 
-similarity between two EEG channels at each discreet time-step is defined as “antipodal 
-connectivity of neural populations”. A schematic representation of this property is 
+similarity between two EEG channels at each discreet time-step is defined as antipodal 
+connectivity of neural populations. A schematic representation of this property is 
 provided in Figure 3. 
  Antipodal connectivity of neural populations is envisioned to have potential 
 implementations. The occurrence frequency of antipodal connectivity is predicted to 
@@ -80,12 +80,12 @@ situations, etc. An advanced cognitive map of the brain can be developed when th
 occurrence rate of antipodal connectivity is associated with different functions of the 
 brain. Additionally, by correlating the occurrence frequency for different situations, it 
 may be possible to detect brain conditions and disabilities such as autism, epilepsy, 
-bipolar disorder, Alzheimer’s disease, dementia, etc. In almost all cases, especially in 
+bipolar disorder, Alzheimers disease, dementia, etc. In almost all cases, especially in 
 infants and seniors, the progression of mental conditions can be prevented with an early 
 diagnosis. For example, the treatment of autism is extremely difficult. However, it is 
 crucial to diagnose it in earlier ages because its progression can be suspended with proper 
-education of the individual. Moreover, according to the CDC, “epilepsy affects about 2.3 
-million adults and 467,711 children 0-17 years of age in the United States” [11, 12]. 
+education of the individual. Moreover, according to the CDC, epilepsy affects about 2.3 
+million adults and 467,711 children 0-17 years of age in the United States [11, 12]. 
 Predicting the time of an epilepsy seizure is critical for patients to take action in order to 
 prevent life threatening consequences. Therefore, classifying the frequency of antipodal 
 connectivity for distinctive brain activities is proposed to provide a better perspective in 
@@ -94,4 +94,4 @@ cognitive decision mechanism.
 The complexity of the neural behavior can be understood if radical approaches containing 
 more effective methods are introduced. Therefore, within the scope of this investigation, 
 a system based on two new mathematical models and the associated prototype to monitor 
-the dynamic behavior of neural population is introduced.  
+the dynamic behavior of neural population is introduced. Children Children Children Children Children Children Children Children Children Children Children Children Children Children Children. 

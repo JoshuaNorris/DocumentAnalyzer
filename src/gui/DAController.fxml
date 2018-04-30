@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane fx:id="tabHolder" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="469.0" prefWidth="789.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GUIController">
+<TabPane fx:id="tabHolder" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="789.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GUIController">
   <tabs>
     <Tab text="Search">
       <content>
@@ -16,7 +16,7 @@
                   <Button fx:id="back" layoutX="666.0" layoutY="349.0" mnemonicParsing="false" onAction="#populateArticlesList" prefWidth="61.0" text="Back" />
                   <ListView fx:id="articlesList" layoutX="90.0" layoutY="61.0" prefHeight="315.0" prefWidth="569.0" />
                   <TextField fx:id="searchBar" layoutX="90.0" layoutY="14.0" prefHeight="31.0" prefWidth="568.0" promptText="Search: Title, keyword, phrase" />
-                  <Button fx:id="delete" layoutX="664.0" layoutY="61.0" mnemonicParsing="false" onAction="#delbutt" prefWidth="61.0" text="Delete" />
+                  <Button fx:id="delete" layoutX="664.0" layoutY="61.0" mnemonicParsing="false" onAction="#delete" prefWidth="61.0" text="Delete" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -35,7 +35,9 @@
                   <Button fx:id="viewFull" layoutX="396.0" layoutY="381.0" mnemonicParsing="false" onAction="#setViewToFull" prefHeight="31.0" prefWidth="382.0" text="View Full Text" />
                   <TextField fx:id="keylist" layoutX="86.0" layoutY="49.0" prefHeight="27.0" prefWidth="273.0" />
                   <TextField fx:id="secondSearchBar" layoutX="370.0" layoutY="49.0" prefHeight="27.0" prefWidth="250.0" />
-                  <Button layoutX="633.0" layoutY="49.0" mnemonicParsing="false" onAction="#search2" text="Search" />
+                  <Button layoutX="633.0" layoutY="49.0" mnemonicParsing="false" onAction="#fullTextSearch" text="Search" />
+                  <ListView fx:id="recommendedArticles" layoutX="17.0" layoutY="441.0" prefHeight="120.0" prefWidth="742.0" />
+                  <Label layoutX="19.0" layoutY="424.0" text="Recommended Articles" />
                </children></AnchorPane>
       </content>
     </Tab>
