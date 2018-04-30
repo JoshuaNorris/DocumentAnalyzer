@@ -11,6 +11,8 @@ import Database.Database;
 import Searcher.Searcher;
 import Searcher.TitleSearcher;
 import Summarizer.KeywordLocator;
+import Summarizer.ScoreSummarizer;
+import Summarizer.StopWordMaker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -112,8 +114,8 @@ public class GUIController {
 		String m = filename.substring(0, filename.length() - fileExtension.length());
 		putFileinDatabase(dubCheck(m), wholeFile);
 		System.out.println("IN KEYWORDLOCATOR");
-		KeywordLocator keywordlocator = new KeywordLocator (10,wholeFile, m);
-		keywordlocator.insertRelatedWordsInDatabase();
+//		KeywordLocator keywordlocator = new KeywordLocator (10,wholeFile, m);
+//		keywordlocator.insertRelatedWordsInDatabase();
 		populateArticlesList();
 		}catch (SQLException e) {
 			error = new BadNews ("We could not put the file into your database.");
@@ -160,7 +162,12 @@ public class GUIController {
 
 	private void putFileinDatabase(String name, String fullText) {
 		try {
-			db.insertDocument(name, fullText);
+			StopWordMaker stopper = new StopWordMaker();
+			ScoreSummarizer scoreSum = new ScoreSummarizer(stopper, db);
+			scoreSum.scoreSentences(fullText, name);
+			String sum = scoreSum.topReturner(name);
+			db.insertDocument(name, fullText, sum);
+			System.out.println('1');
 		} catch (SQLException e) {
 			error = new BadNews("We could not put the file into your database.");
 			e.printStackTrace();
@@ -202,6 +209,8 @@ public class GUIController {
 	public void setViewToSummary(String name) {
 		try {
 			view.setText(db.getSummaryOf(name));
+			ObservableList<String> words = db.getKeywords(name);
+			keylist.setText(words.toString().substring(1, words.toString().length()));
 		} catch (SQLException e) {
 			error = new BadNews("We could not load the summary.");
 			//TODO
