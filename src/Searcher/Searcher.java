@@ -17,6 +17,8 @@ public class Searcher {
 	private String document;
 	private double inarowWeight;
 	private double scoreWeight;
+	private int numOfResults;
+	private boolean isPhrase;
 	private ObservableList<String> searchResults;
 
 	public Searcher(String query, String document, double inarowWeight, double scoreWeight, int numOfResults) {
@@ -24,14 +26,24 @@ public class Searcher {
 		this.document = document;
 		this.inarowWeight = inarowWeight;
 		this.scoreWeight = scoreWeight;
-		this.searchResults = calculateSearchResults(numOfResults);
+		this.numOfResults = numOfResults;
+		this.isPhrase = isPhrase();
+		this.searchResults = calculateSearchResults();
 	}
 
+<<<<<<< HEAD
 	public Searcher (String query, String document, int numOfResults) {
 		this(query, document, 1.0, 1.0, numOfResults);
 	}
 
 	public Searcher (String query, ObservableList<String> titles, int numOfResults) {
+=======
+	public Searcher(String query, String document, int numOfResults) {
+		this(query, document, 1.0, 1.0, numOfResults);
+	}
+
+	public Searcher(String query, ObservableList<String> titles, int numOfResults) {
+>>>>>>> 9aebaf2d99860444c07040cf6b3e6f5c42ffcbce
 		this(query, titlesToDocument(titles), 1.0, 1.0, numOfResults);
 	}
 
@@ -43,11 +55,22 @@ public class Searcher {
 		}
 		return result;
 	}
+<<<<<<< HEAD
 
 	public ObservableList<String> getSearchResults () {return searchResults;};
+=======
+>>>>>>> 9aebaf2d99860444c07040cf6b3e6f5c42ffcbce
 
-	private ObservableList<String> calculateSearchResults(int numOfResults) {
-		ObservableList<String> results = getTopResults(numOfResults);
+	public ObservableList<String> getSearchResults() {return searchResults;};
+
+	private ObservableList<String> calculateSearchResults() {
+		ObservableList<String> results = FXCollections.observableArrayList();
+		if (isPhrase) {
+			PhraseSearcher phraseSearcher = new PhraseSearcher(query, document, inarowWeight, scoreWeight, numOfResults);
+			results = phraseSearcher.getResults();
+		} else {
+			results = getTopResults(numOfResults);
+		}
 		return results;
 	}
 
@@ -88,7 +111,7 @@ public class Searcher {
 		return result;
 	}
 
-	private ObservableList<String> arrayToObservableList(ArrayList<Pair <String, Double>> array) {
+	private ObservableList<String> arrayToObservableList(ArrayList<Pair<String, Double>> array) {
 		ObservableList<String> result = FXCollections.observableArrayList();
 		for (int x = 0; x < array.size(); x++) {
 			result.add(array.get(x).getKey());
@@ -96,6 +119,7 @@ public class Searcher {
 		return result;
 	}
 
+<<<<<<< HEAD
 	/*
 	 * I got the getHighestVote function from:
 	 * https://bukkit.org/threads/get-string-with-the-highest-integer-from-
@@ -110,8 +134,13 @@ public class Searcher {
 				highestMap = entry.getKey();
 				highestVote = entry.getValue();
 			}
+=======
+	private boolean isPhrase() {
+		if (query.indexOf(' ') != -1 && (query.indexOf(' ') != 0) && (query.indexOf(' ') != query.length() - 1)) {
+			return true;
+>>>>>>> 9aebaf2d99860444c07040cf6b3e6f5c42ffcbce
 		}
-		return highestMap;
+		return false;
 	}
 
 }
