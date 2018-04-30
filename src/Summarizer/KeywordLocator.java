@@ -23,6 +23,7 @@ public class KeywordLocator {
 	}
 
 	public void insertRelatedWordsInDatabase() throws SQLException {
+		System.out.println("DOC " + document);
 		DocumentContainer documentContainer = new DocumentContainer(document);
 		ArrayList<Pair<String, Double>> searchesWithScores = documentContainer.getTermFrequency();
 
