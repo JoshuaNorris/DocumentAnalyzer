@@ -228,7 +228,8 @@ public class GUIController {
 		try{
 		Searcher search = new Searcher (secondSearchBar.getText(),db.getFullTextOf(title.getText()), 10);
 		ObservableList<String> results = search.getSearchResults();
-		//keylist.setText(search.getRelatedWords(10).toString());
+		System.out.println("RELATED WORDS" + search.getRelatedWords(10));
+		keylist.setText(search.getRelatedWords(10).toString());
 		String output = "";
 		for (String item : results){
 			output += item + '\n';
