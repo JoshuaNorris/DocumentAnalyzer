@@ -11,7 +11,7 @@ public class KMPScoreCalculator {
 	// is I search stead homestead will have the same score
 	
 	public KMPScoreCalculator(String query, String document, double inarowWeight, double scoreWeight) {
-		this.query = query.toLowerCase();
+		this.query = query.toLowerCase() + ' ';
 		this.document = document;
 		this.result = calculateResult(inarowWeight, scoreWeight);
 	}
