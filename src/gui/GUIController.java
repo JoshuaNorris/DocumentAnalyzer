@@ -11,6 +11,8 @@ import Database.Database;
 import Searcher.Searcher;
 import Searcher.TitleSearcher;
 import Summarizer.KeywordLocator;
+import Summarizer.ScoreSummarizer;
+import Summarizer.StopWordMaker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -115,6 +117,10 @@ public class GUIController {
 		KeywordLocator keywordlocator = new KeywordLocator (10,wholeFile, m);
 		keywordlocator.insertRelatedWordsInDatabase();
 		populateArticlesList();
+		StopWordMaker stopper = new StopWordMaker();
+		ScoreSummarizer scoreSum = new ScoreSummarizer(stopper, db);
+		scoreSum.scoreSentences(wholeFile, filename);
+		scoreSum.topReturner(filename);
 		}catch (SQLException e) {
 			error = new BadNews ("We could not put the file into your database.");
 			e.printStackTrace();
@@ -202,6 +208,8 @@ public class GUIController {
 	public void setViewToSummary(String name) {
 		try {
 			view.setText(db.getSummaryOf(name));
+			ObservableList<String> words = db.getKeywords(name);
+			keylist.setText(words.toString().substring(1, words.toString().length()));
 		} catch (SQLException e) {
 			error = new BadNews("We could not load the summary.");
 			//TODO
