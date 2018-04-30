@@ -11,6 +11,7 @@ import Database.Database;
 import Searcher.TitleSearcher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,6 +22,8 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 //TODO implement delete file button using deleteFile(title) from database
 public class GUIController {
@@ -74,10 +77,10 @@ public class GUIController {
 		    public void handle(MouseEvent click) {
 
 		        if (click.getClickCount() == 2) {
-							//if (!articlesList.isEmpty()){
-		           String currentItemSelected = articlesList.getSelectionModel().getSelectedItem();
-		           loadArticleViewer(currentItemSelected);
-						 //}
+		        	if (!articlesList.getItems().isEmpty()){
+		        		String currentItemSelected = articlesList.getSelectionModel().getSelectedItem();
+		        		loadArticleViewer(currentItemSelected);
+						}
 		        }
 		    }
 		});
@@ -86,36 +89,54 @@ public class GUIController {
 	public void pressLoadFileButton() throws SQLException {
 		//Oracle documentation
 		try {
+		FileChooser chooser = new FileChooser();
+	    chooser.setTitle("Open File");
+	    File chosenFile = chooser.showOpenDialog(new Stage());
 		String fileExtension = ".txt";
-		JFileChooser chooser= new JFileChooser();
-		int choice = chooser.showOpenDialog(null);
-		File chosenFile = chooser.getSelectedFile();
 		if (chosenFile == null) {return;}
 		if (!acceptFile(chosenFile)) {
 			pressLoadFileButton();
 		}
 		String filename = chosenFile.getName();
-		Scanner s = new Scanner(chosenFile);
-		String wholeFile = s.useDelimiter("\\A").next();
+		String wholeFile = Load(chosenFile);
 		String m = filename.substring(0, filename.length() - fileExtension.length());
-		if (db.documentExists(m)){
-			m = dubCheck(m + '1',1);
-		}
-		putFileinDatabase(m, wholeFile);
-		s.close();
-		} catch (FileNotFoundException e) {
+		putFileinDatabase(dubCheck(m), wholeFile);
+		populateArticlesList();
+		}catch (SQLException e) {
+			error = new BadNews ("We could not put the file into your database.");
 			e.printStackTrace();
 		}
-		populateArticlesList();
 	}
-	private String dubCheck(String file,Integer n) throws SQLException{
+	public String Load(File save) {
+		  String stringyFile = "";
+		  try {
+		   Scanner scanner = new Scanner(save);
+		   while (scanner.hasNextLine()) {
+		    stringyFile += (scanner.nextLine());
+		   }
+		   scanner.close();
+		  } catch (FileNotFoundException e) {
+		   e.printStackTrace();
+		  }
+		 return stringyFile;
+	}
+	private String dubCheck(String file) throws SQLException{
+		System.out.println("Entering dubCheck");
 		try{
-			if (db.documentExists(file)){
-				Integer m = n - 1;
-				file = file.substring(0,file.length() - m.toString().length() - 1);
-				Integer k = n + 1;
-				dubCheck(file + k.toString(), k);
+			Integer n = 0;
+			while (db.documentExists(file)){
+				if (n == 1){
+					file += '1';
+				}
+				else{
+					System.out.println("Entering thing");
+					file = file.substring(0,file.length() - n.toString().length());
+					Integer k = n + 1;
+					file += k.toString();
+				}
+				n++;
 			}
+			System.out.println(file + 'l');
 			return file;
 		} catch (SQLException e) {
 			error = new BadNews ("We could not put the file into your database.");
@@ -123,6 +144,7 @@ public class GUIController {
 		}
 		return "";
 	}
+
 	private void putFileinDatabase(String name, String fullText) {
 		try {
 			db.insertDocument(name, fullText);
@@ -168,7 +190,7 @@ public class GUIController {
 		try {
 			view.setText(db.getSummaryOf(name));
 		} catch (SQLException e) {
-			error = new BadNews("We could not load the summary."); 
+			error = new BadNews("We could not load the summary.");
 			//TODO
 			e.printStackTrace();
 		}
@@ -179,7 +201,7 @@ public class GUIController {
 		try {
 			view.setText(db.getFullTextOf(title));
 		} catch (SQLException e) {
-			error = new BadNews("We could not load the full text."); 
+			error = new BadNews("We could not load the full text.");
 			//TODO
 			e.printStackTrace();
 		}
@@ -189,10 +211,21 @@ public class GUIController {
 		ObservableList<String> results = searchTitles.getSearchResults();
 		articlesList.setItems(results);
 	}
-	public void delButt(){
-		Integer item = articlesList.getSelectionModel().getSelectedIndex();
-		if (item != -1){
-			articlesList.getItems().remove(item);
-		}
+	public void delbutt(ActionEvent event) {
+		delete.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				 final int idx = articlesList.getSelectionModel().getSelectedIndex();
+				 if (idx != -1){
+						try {
+							db.deleteFile(articlesList.getItems().get(idx));
+						} catch (SQLException e) {
+							error = new BadNews("We could not delete the full text.");
+							e.printStackTrace();
+						}
+						articlesList.getItems().remove(idx);
+					}
+			}
+		});
 	}
 }
