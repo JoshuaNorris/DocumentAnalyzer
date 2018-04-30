@@ -24,10 +24,9 @@ public class Database {
 		// dropTables();
 	}
 
-	public void insertDocument(String title, String text) throws SQLException {
+	public void insertDocument(String title, String text, String summary) throws SQLException {
 		String safeTitle = makeSafe(title);
 		String safeText = makeSafe(text);
-		String summary = "in sum: " + safeText; // TODO
 		stat.executeUpdate("INSERT INTO document_full (title, body, summary) VALUES ('" + safeTitle + "', '" + safeText
 				+ "', '" + summary + "');");
 	}
