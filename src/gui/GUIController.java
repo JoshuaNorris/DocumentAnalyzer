@@ -10,6 +10,7 @@ import javax.swing.JFileChooser;
 import Database.Database;
 import Searcher.Searcher;
 import Searcher.TitleSearcher;
+import Summarizer.KeywordLocator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -82,6 +83,12 @@ public class GUIController {
 		        	if (!articlesList.getItems().isEmpty()){
 		        		String currentItemSelected = articlesList.getSelectionModel().getSelectedItem();
 		        		loadArticleViewer(currentItemSelected);
+		        		try {
+		        			ObservableList<String> words = db.getKeywords(currentItemSelected);
+							keylist.setText(words.get(0));
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
 
 						}
 		        }
@@ -104,6 +111,9 @@ public class GUIController {
 		String wholeFile = Load(chosenFile);
 		String m = filename.substring(0, filename.length() - fileExtension.length());
 		putFileinDatabase(dubCheck(m), wholeFile);
+		System.out.println("IN KEYWORDLOCATOR");
+		KeywordLocator keywordlocator = new KeywordLocator (10,wholeFile, m);
+		keywordlocator.insertRelatedWordsInDatabase();
 		populateArticlesList();
 		}catch (SQLException e) {
 			error = new BadNews ("We could not put the file into your database.");
@@ -218,6 +228,7 @@ public class GUIController {
 		try{
 		Searcher search = new Searcher (secondSearchBar.getText(),db.getFullTextOf(title.getText()), 10);
 		ObservableList<String> results = search.getSearchResults();
+		//keylist.setText(search.getRelatedWords(10).toString());
 		String output = "";
 		for (String item : results){
 			output += item + '\n';

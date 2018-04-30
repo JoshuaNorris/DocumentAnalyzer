@@ -10,29 +10,36 @@ import gui.GUIController;
 import javafx.util.Pair;
 
 public class KeywordLocator {
-	
+
 	private int numOfKeywords;
 	private String document;
 	private String title;
-	
+
 	public KeywordLocator(int numOfKeywords, String document, String title) {
+		System.out.println("KEYWORDCONSTRUCTOR");
 		this.title = title;
 		this.numOfKeywords = numOfKeywords;
-		this.document = document; 
+		this.document = document;
 	}
 
 	public void insertRelatedWordsInDatabase() throws SQLException {
 		DocumentContainer documentContainer = new DocumentContainer(document);
 		ArrayList<Pair<String, Double>> searchesWithScores = documentContainer.getTermFrequency();
+
+		if (numOfKeywords > searchesWithScores.size()) {
+			numOfKeywords = searchesWithScores.size();
+		}
+
 		for (int x = 0; x < numOfKeywords; x++) {
 			String vote = searchesWithScores.get(x).getKey();
+			System.out.println("ADDING " + vote);
 			GUIController.db.insertKeyword(title, vote);
 			searchesWithScores.remove(vote);
 		}
 	}
-		
+
 	/*
-	 * I got the getHighestVote function from: 
+	 * I got the getHighestVote function from:
 	 * https://bukkit.org/threads/get-string-with-the-highest-integer-from-
 	 * hashmap.309098/
 	 */
@@ -51,4 +58,3 @@ public class KeywordLocator {
 
 
 }
-	
