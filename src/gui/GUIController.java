@@ -85,7 +85,7 @@ public class GUIController {
 		        		loadArticleViewer(currentItemSelected);
 		        		try {
 		        			ObservableList<String> words = db.getKeywords(currentItemSelected);
-							keylist.setText(words.get(0));
+							keylist.setText(words.toString().substring(1, words.toString().length()));
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}

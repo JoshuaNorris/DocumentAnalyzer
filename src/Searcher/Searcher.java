@@ -31,19 +31,11 @@ public class Searcher {
 		this.searchResults = calculateSearchResults();
 	}
 
-<<<<<<< HEAD
-	public Searcher (String query, String document, int numOfResults) {
-		this(query, document, 1.0, 1.0, numOfResults);
-	}
-
-	public Searcher (String query, ObservableList<String> titles, int numOfResults) {
-=======
 	public Searcher(String query, String document, int numOfResults) {
 		this(query, document, 1.0, 1.0, numOfResults);
 	}
 
 	public Searcher(String query, ObservableList<String> titles, int numOfResults) {
->>>>>>> 9aebaf2d99860444c07040cf6b3e6f5c42ffcbce
 		this(query, titlesToDocument(titles), 1.0, 1.0, numOfResults);
 	}
 
@@ -55,11 +47,7 @@ public class Searcher {
 		}
 		return result;
 	}
-<<<<<<< HEAD
 
-	public ObservableList<String> getSearchResults () {return searchResults;};
-=======
->>>>>>> 9aebaf2d99860444c07040cf6b3e6f5c42ffcbce
 
 	public ObservableList<String> getSearchResults() {return searchResults;};
 
@@ -119,7 +107,6 @@ public class Searcher {
 		return result;
 	}
 
-<<<<<<< HEAD
 	/*
 	 * I got the getHighestVote function from:
 	 * https://bukkit.org/threads/get-string-with-the-highest-integer-from-
@@ -134,11 +121,12 @@ public class Searcher {
 				highestMap = entry.getKey();
 				highestVote = entry.getValue();
 			}
-=======
+		}
+		return highestMap;
+	}
 	private boolean isPhrase() {
 		if (query.indexOf(' ') != -1 && (query.indexOf(' ') != 0) && (query.indexOf(' ') != query.length() - 1)) {
 			return true;
->>>>>>> 9aebaf2d99860444c07040cf6b3e6f5c42ffcbce
 		}
 		return false;
 	}
