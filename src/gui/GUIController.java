@@ -114,8 +114,8 @@ public class GUIController {
 		String m = filename.substring(0, filename.length() - fileExtension.length());
 		putFileinDatabase(dubCheck(m), wholeFile);
 		System.out.println("IN KEYWORDLOCATOR");
-		KeywordLocator keywordlocator = new KeywordLocator (5,wholeFile, m);
-		keywordlocator.insertRelatedWordsInDatabase();
+//		KeywordLocator keywordlocator = new KeywordLocator (10,wholeFile, m);
+//		keywordlocator.insertRelatedWordsInDatabase();
 		populateArticlesList();
 		}catch (SQLException e) {
 			error = new BadNews ("We could not put the file into your database.");
@@ -162,11 +162,12 @@ public class GUIController {
 
 	private void putFileinDatabase(String name, String fullText) {
 		try {
-//			StopWordMaker stopper = new StopWordMaker();
-//			ScoreSummarizer scoreSum = new ScoreSummarizer(stopper, db);
-//			scoreSum.scoreSentences(fullText, name);
-//			String sum = scoreSum.topReturner(name);
-			db.insertDocument(name, fullText,"hello");
+			StopWordMaker stopper = new StopWordMaker();
+			ScoreSummarizer scoreSum = new ScoreSummarizer(stopper, db);
+			scoreSum.scoreSentences(fullText, name);
+			String sum = scoreSum.topReturner(name);
+			db.insertDocument(name, fullText, sum);
+			System.out.println('1');
 		} catch (SQLException e) {
 			error = new BadNews("We could not put the file into your database.");
 			e.printStackTrace();
