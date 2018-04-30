@@ -32,7 +32,7 @@ public class Database {
 				+ "', '" + summary + "');");
 	}
 
-	public void insertSummarySentence(String title, String sentence,  int index, int score) throws SQLException {
+	public void insertSummarySentence(String title, String sentence,  int index, Double score) throws SQLException {
 		String safeTitle = makeSafe(title);
 		String safeSentence = makeSafe(sentence);
 		stat.executeUpdate("INSERT INTO document_summary (title, sentence, numSentence, score) VALUES ('" + safeTitle + "', '"
