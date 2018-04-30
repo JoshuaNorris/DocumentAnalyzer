@@ -59,6 +59,7 @@ public class DatabaseTest {
 		assertTrue(keywords.contains("key1"));
 		assertTrue(keywords.contains("key2"));
 		assertTrue(keywords.contains("key3"));
+		assertFalse(keywords.contains("key4"));
 	}
 	
 	@Test 
