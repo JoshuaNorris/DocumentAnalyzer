@@ -6,11 +6,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import Database.Database;
+import Parser.Documents.DocumentContainer;
 import Searcher.Searcher;
 import Searcher.TitleSearcher;
+import Sectioner.DocumentSectioner;
 import Summarizer.KeywordLocator;
 import Summarizer.ScoreSummarizer;
 import Summarizer.StopWordMaker;
@@ -88,29 +91,26 @@ public class GUIController {
 	private void setUpListView() {
 		populateArticlesList();
 		articlesList.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 			@Override
 			public void handle(MouseEvent click) {
 
-				if (click.getClickCount() == 2) {
-					if (!articlesList.getItems().isEmpty()) {
-						String currentItemSelected = articlesList.getSelectionModel().getSelectedItem();
-						loadArticleViewer(currentItemSelected);
-						try {
-							ObservableList<String> words = db.getKeywords(currentItemSelected);
-							keylist.setText(words.toString().substring(1, words.toString().length()));
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-
+				if (click.getClickCount() == 2 & !articlesList.getItems().isEmpty()) {
+					String currentItemSelected = articlesList.getSelectionModel().getSelectedItem();
+					loadArticleViewer(currentItemSelected);
+					try {
+						ObservableList<String> words = db.getKeywords(currentItemSelected);
+						keylist.setText(words.toString().substring(1, words.toString().length()));
+					} catch (SQLException e) {
+						error = new BadNews("We were unable to load that document.");
+						e.printStackTrace();
 					}
+
 				}
 			}
 		});
 	}
 
 	public void pressLoadFileButton() throws SQLException {
-		// Oracle documentation
 		try {
 			FileChooser chooser = new FileChooser();
 			chooser.setTitle("Open File");
@@ -123,7 +123,6 @@ public class GUIController {
 				pressLoadFileButton();
 			}
 			String filename = chosenFile.getName();
-			System.out.println("WHOLEFILE " + filename);
 			String wholeFile = Load(chosenFile);
 			String m = filename.substring(0, filename.length() - fileExtension.length());
 
@@ -154,10 +153,10 @@ public class GUIController {
 	private void putFileinDatabase(String name, String fullText) {
 		try {
 			if (!db.documentExists(name)) {
-				StopWordMaker stopper = new StopWordMaker();
-				ScoreSummarizer scoreSum = new ScoreSummarizer(stopper, db);
-				scoreSum.scoreSentences(fullText, name);
-				String sum = scoreSum.topReturner(name);
+				fullText = fullText.replaceAll("—", " ");
+				
+				String sum = separate(new DocumentContainer(fullText), name);
+				
 				fullText = fullText.replaceAll("/n", "");
 				db.insertDocument(name, fullText, sum);
 			} else {
@@ -167,6 +166,41 @@ public class GUIController {
 			error = new BadNews("We could not put the file into your database.");
 			e.printStackTrace();
 		}
+	}
+
+	private String separate(DocumentContainer doc, String name) {
+		String summary = "";
+		StopWordMaker stopper = new StopWordMaker();
+		ScoreSummarizer scoreSum = new ScoreSummarizer(stopper, db);
+		int calculatedPercent = calculatePercent(doc.getSentences().size());
+		DocumentSectioner container = new DocumentSectioner(doc.getText(), calculatedPercent);
+		ArrayList<String> separated = container.getSectionedText();
+		for (String sentences : separated) {
+			try {
+				scoreSum.scoreSentences(sentences, name);
+				summary += scoreSum.topReturner(name);
+			} catch (SQLException e) {
+				error = new BadNews("We could not summarize this document.");
+				e.printStackTrace();
+			}
+		}
+
+		return summary;
+	}
+
+	private int calculatePercent(int numSentences) { //Look, I know there's a better way
+		System.out.println("numSentences: " + numSentences);
+		int percent = 100;
+		if (numSentences > 500) {
+			percent = 50;
+		} else if (numSentences > 1500) {
+			percent = 20;
+		} else if (numSentences > 5000) {
+			percent = 10;
+		} else if (numSentences > 1000) {
+			percent = 5;
+		}
+		return percent;
 	}
 
 	public boolean acceptFile(File f) {
@@ -270,7 +304,6 @@ public class GUIController {
 		String searchResultsText = listToText(searchResults);
 		searchResultsTextArea.setText(searchResultsText);
 	}
-
 
 	private String listToText(ObservableList<String> searchResults) {
 		String result = "Search Results: \n";

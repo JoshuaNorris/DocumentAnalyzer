@@ -15,7 +15,7 @@ public class DocumentSectioner {
 	private ArrayList<String> sentences;
 	private int numSections;
 
-	public DocumentSectioner(String text) {
+	public DocumentSectioner(String text, int percent) {
 		this.document = new DocumentContainer(text);
 		highestWordWanted = 0;
 		/*
@@ -24,9 +24,8 @@ public class DocumentSectioner {
 		 * might have to do this more than once with second most important words not yet
 		 * implemented
 		 */
-		arbitraryPercent = 10;
+		arbitraryPercent = percent;
 		this.sentences = document.getSentences();
-		System.out.println(sentences.size());
 		sectionedText = new ArrayList<String>();
 		sectionedText.add("");
 		numSections = 0;
@@ -72,7 +71,8 @@ public class DocumentSectioner {
 	}
 
 	private void sectionOut(int lower, int upper, Optional<Pair<String, Double>> prevHighScore) {
-		System.out.println("range: " + lower + "-" + upper);
+		System.out.println(lower);
+		System.out.println(upper);
 
 		ArrayList<String> wordsList = buildWordsListForTermFreq(lower, upper);
 		Pair<String, Double> topWordStats = getDesiredScore(wordsList);
@@ -81,8 +81,14 @@ public class DocumentSectioner {
 		int nextUpperBound = getSentenceIndexByPercent(nextLowerBound, arbitraryPercent);
 		Optional<Pair<String, Double>> newHighScore = Optional.of(topWordStats);
 
+		if (upper == sentences.size() - 1 | lower == sentences.size() - 1) {
+			System.out.println("HERE");
+			addToThisSection(lower, upper);
+			return;
+		}
 		
 		if (!prevHighScore.isPresent()) {
+			System.out.println("NUMBA 1");
 			addToThisSection(lower, upper);
 			sectionOut(nextLowerBound, nextUpperBound, newHighScore);
 			return;
@@ -90,24 +96,18 @@ public class DocumentSectioner {
 			numSections++;
 			sectionedText.add("");
 		}
-		if (upper == sentences.size() - 1) {
-			System.out.println("upper is equal to sentence size - 1");
-			addToThisSection(lower, upper);
-			return;
-		}
+		
 		addToThisSection(lower, upper);
 		sectionOut(nextLowerBound, nextUpperBound, newHighScore);
 	}
 
 	private void addToThisSection(int lowerBound, int upperBound) {
 		String section = "";
-		System.out.println("numSections: " + numSections);
 		for (int i = lowerBound; i <= upperBound; i++) {
 			section += sentences.get(i);
 		}
 		String text = sectionedText.get(numSections);
 		text += section;
-		System.out.println("text" + text);
 		sectionedText.set(numSections, text);
 	}
 

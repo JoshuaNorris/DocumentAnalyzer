@@ -16,14 +16,12 @@ public class KeywordLocator {
 	private String title;
 
 	public KeywordLocator(int numOfKeywords, String document, String title) {
-		System.out.println("KEYWORDCONSTRUCTOR");
 		this.title = title;
 		this.numOfKeywords = numOfKeywords;
 		this.document = document;
 	}
 
 	public void insertRelatedWordsInDatabase() throws SQLException {
-		System.out.println("DOC " + document);
 		DocumentContainer documentContainer = new DocumentContainer(document);
 		ArrayList<Pair<String, Double>> searchesWithScores = documentContainer.getTermFrequency();
 
@@ -33,7 +31,6 @@ public class KeywordLocator {
 
 		for (int x = 0; x < numOfKeywords; x++) {
 			String vote = searchesWithScores.get(x).getKey();
-			System.out.println("ADDING " + vote);
 			GUIController.db.insertKeyword(title, vote);
 			searchesWithScores.remove(vote);
 		}

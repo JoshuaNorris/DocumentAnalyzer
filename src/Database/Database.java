@@ -39,33 +39,8 @@ public class Database {
 		stat.executeUpdate("INSERT INTO document_summary (title, sentence, numSentence, score) VALUES ('" + safeTitle + "', '"
 				+ safeSentence + "', " + index + ", " + score + ");");
 	}
-	
-//	public void insertSearchAttempt(String title, String query) throws SQLException {
-//		String safeTitle = makeSafe(title);
-//		String safeQuery = makeSafe(query);
-//		stat.executeUpdate("INSERT INTO search_attempt (title, query) VALUES ('" + safeTitle + "', '"
-//				+ safeQuery + "');");
-//		
-//	}
-//	
-//	public String getSearchTitle() throws SQLException {
-//		ResultSet result = stat.executeQuery("SELECT * FROM search_attempt;");
-//		return result.getString(1);
-//	}
-//	
-//	public void removeSearchAttempt() throws SQLException {
-//		stat.executeUpdate("DELETE * FROM table_name;");
-//	}
-//	
-//	public String getSearchQuery() throws SQLException {
-//		ResultSet result = stat.executeQuery("SELECT * FROM search_attempt;");
-//		return result.getString(2);
-//	}
-
-
 
 	public ObservableList<String> getAllArticles() throws SQLException {
-		System.out.println("Getting all articles");
 
 		ObservableList<String> articles = FXCollections.observableArrayList();
 		StringBuilder temp = new StringBuilder();
@@ -112,9 +87,7 @@ public class Database {
 	}
 
 	public void insertKeyword(String title, String word) throws SQLException {
-		System.out.println("ADDED " + word);
 		String safeTitle = makeSafe(title);
-		System.out.println("insert SAFETITLE " + safeTitle);
 		String safeKey = makeSafe(word);
 		stat.executeUpdate("INSERT INTO document_keywords (title, keyword) VALUES ('" + safeTitle + "', '"
 				+ safeKey + "');");
@@ -123,13 +96,10 @@ public class Database {
 	public ObservableList<String> getKeywords(String title) throws SQLException {
 		ObservableList<String> keywords = FXCollections.observableArrayList();
 		String safeTitle = makeSafe(title);
-		System.out.println("get SAFETITLE " + safeTitle);
 		ResultSet info = stat.executeQuery("SELECT keyword FROM document_keywords WHERE title='" + safeTitle + "'");
 		while (info.next()) {
 			keywords.add(info.getString("keyword"));
 		}
-		System.out.println("GOT KEYWORDS");
-		System.out.println(keywords);
 		return keywords;
 	}
 
